@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -23,7 +23,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
             </android.support.design.widget.AppBarLayout>
 
             <ScrollView
@@ -44,29 +44,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/home_banner"/>
+                        android:src="@drawable/home_banner" />
 
                     <GridView
                         android:id="@+id/fourbtn_grid"
                         android:layout_width="match_parent"
                         android:layout_height="204dp"
-                        android:scrollbars="none"
                         android:horizontalSpacing="2px"
                         android:numColumns="2"
                         android:paddingTop="2px"
-                        android:verticalSpacing="2px"/>
+                        android:scrollbars="none"
+                        android:verticalSpacing="2px" />
 
-                    <ListView
-                        android:id="@+id/home_live_list"
+                    <LinearLayout
+                        android:id="@+id/home_live_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </ListView>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
-                    <ListView
-                        android:id="@+id/home_video_list"
+                    <LinearLayout
+                        android:id="@+id/home_video_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </ListView>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
                     <GridView
                         android:id="@+id/home_song_grid"
@@ -74,13 +74,14 @@
                         android:layout_height="wrap_content"
                         android:horizontalSpacing="10dp"
                         android:numColumns="2"
-                        android:verticalSpacing="10dp"/>
+                        android:verticalSpacing="10dp" />
 
-                    <ListView
-                        android:id="@+id/home_mv_list"
+                    <LinearLayout
+                        android:id="@+id/home_mv_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </ListView>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
                 </LinearLayout>
             </ScrollView>
         </android.support.design.widget.CoordinatorLayout>
@@ -92,6 +93,6 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/nav_menu"/>
+            app:menu="@menu/nav_menu" />
     </android.support.v4.widget.DrawerLayout>
 </FrameLayout>

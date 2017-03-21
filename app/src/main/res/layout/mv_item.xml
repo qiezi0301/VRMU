@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
 
     <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/home_banner"/>
+        android:src="@drawable/home_banner" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Tao_FenBoy"
             android:textColor="@color/colorWhite"
-            android:textSize="13.5sp"/>
+            android:textSize="13.5sp" />
 
         <TextView
             android:id="@+id/desc_tv"
@@ -35,22 +37,22 @@
             android:layout_height="wrap_content"
             android:text="明细艺人"
             android:textColor="@color/colorWhite"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:padding="2dp"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#5000">
+        android:layout_alignParentRight="true"
+        android:background="#5000"
+        android:padding="2dp">
 
         <ImageView
-            android:paddingRight="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/home_eye_ico"/>
+            android:paddingRight="2dp"
+            android:src="@drawable/home_eye_ico" />
 
         <TextView
             android:id="@+id/watch_tv"
@@ -59,7 +61,7 @@
             android:layout_gravity="center_vertical"
             android:text="160万"
             android:textColor="@color/colorWhite"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
     </LinearLayout>
 </RelativeLayout>

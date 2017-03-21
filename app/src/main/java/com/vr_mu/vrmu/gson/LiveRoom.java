@@ -2,7 +2,7 @@ package com.vr_mu.vrmu.gson;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
+/**首页LiveRoom直播部分
  * Created by zhangjialiang on 17/3/20.
  */
 
@@ -19,13 +19,13 @@ public class LiveRoom {
      */
 
     @SerializedName("id")
-    public int roomId;
+    public int id;
 
     @SerializedName("name")
-    public String liveTitle;
+    public String name;
 
     @SerializedName("img")
-    public String liveImg;
+    public String img;
 
     @SerializedName("path")
     public String path;
