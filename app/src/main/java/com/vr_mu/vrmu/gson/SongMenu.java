@@ -18,7 +18,7 @@ public class SongMenu {
     public int id;
 
     @SerializedName("title")
-    public String title;
+    public String name;
 
     @SerializedName("img")
     public String img;
@@ -27,9 +27,26 @@ public class SongMenu {
     public String desc;
 
     @SerializedName("views")
-    public String views;
+    public String viewers;
 
-    @SerializedName("bgcolor_hex")
-    public String bgcolorHex;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getViewers() {
+        return viewers;
+    }
 }

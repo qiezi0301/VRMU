@@ -23,9 +23,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
+import com.vr_mu.vrmu.adapters.SongAdapter;
 import com.vr_mu.vrmu.gson.Home;
 import com.vr_mu.vrmu.gson.LiveRoom;
 import com.vr_mu.vrmu.gson.Mv;
+import com.vr_mu.vrmu.gson.SongMenu;
 import com.vr_mu.vrmu.gson.Video;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -41,6 +43,8 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static com.vr_mu.vrmu.R.id.img;
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
@@ -48,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private LinearLayout homeLiveLayout;
     private LinearLayout homevideolayout;
+    private GridView homeSongGrid;
     private LinearLayout homeMvLayout;
 
 
@@ -59,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         homeLiveLayout = (LinearLayout) findViewById(R.id.home_live_layout);
         homevideolayout = (LinearLayout) findViewById(R.id.home_video_layout);
         homeMvLayout = (LinearLayout) findViewById(R.id.home_mv_layout);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +87,15 @@ public class HomeActivity extends AppCompatActivity {
         });
         setMainIcons();
 
-        requestHomeData();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String homeInfoString = preferences.getString("homeInfo", null);
+
+        if (homeInfoString != null) {
+            Home home =Utility.handleHomeResponse(homeInfoString);
+            showHomeInfo(home);
+        } else {
+            requestHomeData();
+        }
     }
 
     public void requestHomeData() {
@@ -106,6 +120,9 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (home != null && "success".equals(home.msg)){
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this).edit();
+                            editor.putString("homeInfo", responseText);
+                            editor.apply();
                             showHomeInfo(home);
                         }else {
                             Toast.makeText(HomeActivity.this, "获取首页数据失败", Toast.LENGTH_SHORT).show();
@@ -123,13 +140,13 @@ public class HomeActivity extends AppCompatActivity {
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
-            ImageView img = (ImageView) view.findViewById(R.id.img);
+            ImageView img123 = (ImageView) view.findViewById(img);
             CircleImageView avatarimg = (CircleImageView) view.findViewById(R.id.avatar_img);
 
             watchtv.setText(liveRoom.viewers);
             causetv.setText(liveRoom.desc);
             nametv.setText(liveRoom.name);
-
+            Glide.with(this).load(liveRoom.img).into(img123);
             homeLiveLayout.addView(view);
         }
 
@@ -137,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
         for (Video video : home.homeData.videoList){
 
             View view = LayoutInflater.from(this).inflate(R.layout.video_item, homevideolayout, false);
-            ImageView img = (ImageView) view.findViewById(R.id.img);
+            ImageView img123 = (ImageView) view.findViewById(img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
@@ -145,17 +162,25 @@ public class HomeActivity extends AppCompatActivity {
             watchtv.setText(video.viewers);
             causetv.setText(video.desc);
             nametv.setText(video.name);
-
+            Glide.with(this).load(video.img).into(img123);
             homevideolayout.addView(view);
         }
 
-        List<Mv> mvList = home.homeData.mvList;
+        List<SongMenu> songList = new ArrayList<>();
+        homeSongGrid = (GridView) findViewById(R.id.home_song_grid);
 
+        for (SongMenu songMenu : home.homeData.songMenu){
+            songList.add(songMenu);
+        }
+        SongAdapter songAdapter = new SongAdapter(this, R.layout.song_item, songList);
+        homeSongGrid.setAdapter(songAdapter);
+
+        List<Mv> mvList = home.homeData.mvList;
         homeMvLayout.removeAllViews();
         for (Mv mv : mvList){
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             View view = LayoutInflater.from(this).inflate(R.layout.mv_item, homeMvLayout, false);
-            final ImageView img123 = (ImageView) view.findViewById(R.id.img);
+            ImageView img123 = (ImageView) view.findViewById(img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
@@ -163,38 +188,7 @@ public class HomeActivity extends AppCompatActivity {
             watchtv.setText(mv.viewers);
             causetv.setText(mv.desc);
             nametv.setText(mv.name);
-
-            String imgString = prefs.getString("imgString",null);
-
-
-            String requestPic = mv.img;
-            Toast.makeText(this, requestPic, Toast.LENGTH_SHORT).show();
-
-            if (imgString != null) {
-                Glide.with(this).load(imgString).into(img123);
-            } else {
-                HttpUtil.sendOkHttpRequest(requestPic, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final String imgString = response.body().string();
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this).edit();
-                        editor.putString("imgString", imgString);
-                        editor.apply();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Glide.with(HomeActivity.this).load(imgString).into(img123);
-                            }
-                        });
-                    }
-                });
-            }
-
+            Glide.with(this).load(mv.img).into(img123);
             homeMvLayout.addView(view);
         }
     }
