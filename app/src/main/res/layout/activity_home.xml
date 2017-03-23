@@ -19,6 +19,12 @@
             android:layout_marginBottom="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+        <android.support.v4.app.FragmentTabHost
+            android:id="@+id/tabhost"
+            android:background="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
