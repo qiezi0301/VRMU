@@ -68,6 +68,6 @@ public class SongAdapter extends ArrayAdapter<SongMenu> {
         ImageView img;
         TextView nameTv;
         TextView descTv;
-        TextView watchTv;1
+        TextView watchTv;
     }
 }
