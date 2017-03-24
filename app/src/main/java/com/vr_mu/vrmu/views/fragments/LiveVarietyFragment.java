@@ -12,10 +12,10 @@ import com.vr_mu.vrmu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongHomeFragment extends Fragment {
+public class LiveVarietyFragment extends Fragment {
 
 
-    public SongHomeFragment() {
+    public LiveVarietyFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class SongHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_song_home, container, false);
+        return inflater.inflate(R.layout.fragment_live_variety, container, false);
     }
 
 }

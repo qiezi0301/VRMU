@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,8 +31,8 @@ public class HomeActivity extends FragmentActivity {
      * Fragment数组界面
      */
     private final Class mFragmentArray[] = {LiveHomeFragment.class, SongHomeFragment.class, HomeFragment.class, ServerHomeFragment.class, FindHomeFragment.class};
-    private int mImageArray[] = {R.drawable.live_white_default, R.drawable.music_white, R.drawable.service_white, R.drawable.service_white, R.drawable.find_white};
-    private String mTextArray[] = {"哇-Live", "音乐", "首页", "服务", "发现"};
+    private int mImageArray[] = {R.drawable.live_btn, R.drawable.ic_tab_music, 0, R.drawable.ic_tab_service, R.drawable.ic_tab_find};
+    private String mTextArray[] = {"哇-Live", "音乐", "", "服务", "发现"};
 
     private LayoutInflater mLayoutInflater;
     private FragmentTabHost mTabHost;
@@ -40,19 +41,17 @@ public class HomeActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        initView();
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
+        ImageView menuView = (ImageView) findViewById(R.id.menu_iv);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
-//        ActionBar actionBar = getSupportActionBar();
-//
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-//        }
 
+        menuView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
         navView.setCheckedItem(R.id.nav_money);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,11 +61,7 @@ public class HomeActivity extends FragmentActivity {
             }
         });
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.content_lay, new HomeFragment());
-//        transaction.commit();
-
+        initView();
     }
 
     private void initView() {
@@ -82,9 +77,9 @@ public class HomeActivity extends FragmentActivity {
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTextArray[i]).setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
             mTabHost.addTab(tabSpec, mFragmentArray[i], null);
-            // 设置Tab按钮的背景
-            mTabHost.getTabWidget().setDividerDrawable(null);
         }
+        // 显示第三tab内容Fragment
+        mTabHost.setCurrentTab(2);
     }
 
     /**
@@ -92,25 +87,12 @@ public class HomeActivity extends FragmentActivity {
      */
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.tab_item_view, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.tab_icon);
-        imageView.setImageResource(mImageArray[index]);
-        TextView textView = (TextView) view.findViewById(R.id.tab_tv);
-        textView.setText(mTextArray[index]);
 
+        ImageView imageView = (ImageView) view.findViewById(R.id.tab_icon);
+        TextView textView = (TextView) view.findViewById(R.id.tab_tv);
+
+        imageView.setImageResource(mImageArray[index]);
+        textView.setText(mTextArray[index]);
         return view;
     }
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                mDrawerLayout.openDrawer(GravityCompat.START);
-//                break;
-//            default:
-//        }
-//        return true;
-//    }
-
-
 }
