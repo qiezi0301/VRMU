@@ -25,8 +25,12 @@ import com.vr_mu.vrmu.gson.LiveRoom;
 import com.vr_mu.vrmu.gson.Mv;
 import com.vr_mu.vrmu.gson.SongMenu;
 import com.vr_mu.vrmu.gson.Video;
+import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +98,15 @@ public class HomeFragment extends Fragment {
     }
 
     public void requestHomeData() {
-        String homeUrl = "http://api.vr-mu.com/Api/Home/data?msg=%7b%22encrypt%22%3a%22yes%22%7d";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("orderby", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String homeUrl = UserServerHelper.HOME + jsonObject.toString();
+
         HttpUtil.sendOkHttpRequest(homeUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

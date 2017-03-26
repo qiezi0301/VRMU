@@ -35,4 +35,28 @@ public class LiveRoom {
 
     @SerializedName("viewers")
     public String viewers;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getViewers() {
+        return viewers;
+    }
 }
