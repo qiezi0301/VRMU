@@ -8,10 +8,11 @@ import com.vr_mu.vrmu.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LiveLiveFragment extends BaseFragment {
+public class SongAlbumFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResouceId() {
-        return R.layout.fragment_live_live;
+        return R.layout.fragment_song_album;
     }
+
 }
