@@ -49,8 +49,9 @@ public abstract class BaseFragment extends Fragment {
         Log.d("BaseFragment", "当前碎片=======:" + this + "，布局：" + mRootView);
         if (mRootView == null) {
             mRootView = inflater.inflate(setLayoutResouceId(), container, false);
+            initView();
         }
-        initView();
+
         initData(getArguments());
         mIsPrepare = true;
         onLazyLoad();

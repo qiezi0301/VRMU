@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,8 @@ import com.vr_mu.vrmu.gson.Video;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
+import com.vr_mu.vrmu.views.customize.LoadingProgressDialog;
+import com.vr_mu.vrmu.views.customize.PullToRefreshView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,9 +49,10 @@ import static com.vr_mu.vrmu.R.id.img;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements PullToRefreshView.OnHeaderRefreshListener{
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private LoadingProgressDialog mLoadingDialog;
+    private PullToRefreshView mPullToRefreshView;
     private LinearLayout homeLiveLayout;
     private LinearLayout homevideolayout;
     private GridView homeSongGrid;
@@ -75,20 +77,18 @@ public class HomeFragment extends Fragment {
         homeMvLayout = (LinearLayout) view.findViewById(R.id.home_mv_layout);
         homevideolayout = (LinearLayout) view.findViewById(R.id.home_video_layout);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestHomeData();
-            }
-        });
+        //初始化刷新控件
+        mLoadingDialog = LoadingProgressDialog.createDialog(getActivity());
+        mPullToRefreshView = (PullToRefreshView) view.findViewById(R.id.swipe_refresh);
+        mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
 
+        //读取本地是否有缓存文件
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String homeInfoString = preferences.getString("homeInfo", null);
 
         if (homeInfoString != null) {
             Home home = Utility.handleHomeResponse(homeInfoString);
+            mPullToRefreshView.setOnHeaderRefreshListener(HomeFragment.this);
             showHomeInfo(home);
         } else {
             requestHomeData();
@@ -104,9 +104,8 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        mLoadingDialog.show();
         String homeUrl = UserServerHelper.HOME + jsonObject.toString();
-
         HttpUtil.sendOkHttpRequest(homeUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -115,7 +114,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
+                        mLoadingDialog.dismiss();
                     }
                 });
             }
@@ -131,11 +130,12 @@ public class HomeFragment extends Fragment {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.putString("homeInfo", responseText);
                             editor.apply();
+                            mPullToRefreshView.setOnHeaderRefreshListener(HomeFragment.this);
                             showHomeInfo(home);
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
-                        swipeRefreshLayout.setRefreshing(false);
+                        mLoadingDialog.dismiss();
                     }
                 });
             }
@@ -143,6 +143,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void showHomeInfo(Home home) {
+
         homeLiveLayout.removeAllViews();
         for (LiveRoom liveRoom : home.homeData.liveRoomList) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.live_item, homeLiveLayout, false);
@@ -199,17 +200,16 @@ public class HomeFragment extends Fragment {
             Glide.with(this).load(mv.img).into(img123);
             homeMvLayout.addView(view);
         }
+
     }
 
     //设置主入口图标数据
     private void setMainIcons() {
-        /*使用Gview控件*/
-        GridView gridView = (GridView) view.findViewById(R.id.fourbtn_grid);
-        //新建List
-        List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();
 
-        //获取数据
-        int[] icon = {R.drawable.home_live_btn, R.drawable.home_music_btn, R.drawable.home_service_btn, R.drawable.home_find_btn,};
+        GridView gridView = (GridView) view.findViewById(R.id.fourbtn_grid);/*使用Gview控件*/
+        List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();//新建List
+
+        int[] icon = {R.drawable.home_live_btn, R.drawable.home_music_btn, R.drawable.home_service_btn, R.drawable.home_find_btn,};//获取数据
 
         /*cion和iconName的长度是相同的，这里任选其一都可以*/
         for (int i = 0; i < icon.length; i++) {
@@ -238,4 +238,15 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
+    @Override
+    public void onHeaderRefresh(PullToRefreshView view) {
+        mPullToRefreshView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPullToRefreshView.onHeaderRefreshComplete();
+                requestHomeData();
+            }
+        }, 1000);
+    }
 }

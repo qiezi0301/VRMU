@@ -4,9 +4,11 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.vr_mu.vrmu.R;
@@ -16,6 +18,8 @@ import com.vr_mu.vrmu.gson.LiveHome;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
+import com.vr_mu.vrmu.views.customize.LoadingProgressDialog;
+import com.vr_mu.vrmu.views.customize.PullToRefreshView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,11 +35,16 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LiveLiveFragment extends BaseFragment {
+public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
 
+    private LoadingProgressDialog mLoadingDialog;
+    private PullToRefreshView mPullToRefreshView;
 
+    private View bannerview;
+    private ListView listView;
+    private List<Live> liveList = new ArrayList<>();
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private ScrollView sv;
 
     @Override
     protected int setLayoutResouceId() {
@@ -44,16 +53,30 @@ public class LiveLiveFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        bannerview = LayoutInflater.from(mActivity).inflate(R.layout.lay_banner, null);
+        listView = findViewById(R.id.list_view);
+        listView.addHeaderView(bannerview);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestLiveData();
-            }
-        });
-        requestLiveData();
+        //初始化刷新控件
+        mLoadingDialog = LoadingProgressDialog.createDialog(getActivity());
+        mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
+        mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
+
+        sv = findViewById(R.id.over_scroll);
+        sv.smoothScrollTo(0, 0);
+
+        //读取本地是否有缓存文件
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String liveInfoString = preferences.getString("liveInfo", null);
+
+        if (liveInfoString != null) {
+            LiveHome liveHome = Utility.handleLiveResponse(liveInfoString);
+            mPullToRefreshView.setOnHeaderRefreshListener(LiveLiveFragment.this);
+            showLiveInfo(liveHome);
+        } else {
+            requestLiveData();
+        }
+
 
     }
 
@@ -75,7 +98,7 @@ public class LiveLiveFragment extends BaseFragment {
                     @Override
                     public void run() {
                         Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 });
             }
@@ -95,7 +118,7 @@ public class LiveLiveFragment extends BaseFragment {
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
-                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 });
             }
@@ -103,9 +126,6 @@ public class LiveLiveFragment extends BaseFragment {
     }
 
     private void showLiveInfo(LiveHome liveHome) {
-        List<Live> liveList = new ArrayList<>();
-        ListView listView = findViewById(R.id.list_view);
-
         for (Live live : liveHome.liveRoomList) {
             liveList.add(live);
             Log.d(TAG, "showLiveInfo>>>>>>>>>>>>>>>>: " + live.name);
@@ -113,5 +133,16 @@ public class LiveLiveFragment extends BaseFragment {
         RoomAdapter liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveHome.liveRoomList);
         listView.setAdapter(liveAdapter);
 
+    }
+
+    @Override
+    public void onHeaderRefresh(PullToRefreshView view) {
+        mPullToRefreshView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPullToRefreshView.onHeaderRefreshComplete();
+                requestLiveData();
+            }
+        }, 1000);
     }
 }

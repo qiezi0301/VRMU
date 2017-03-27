@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vr_mu.vrmu.views.customize.PullToRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/home_layout"
+    <com.vr_mu.vrmu.views.customize.OverScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fadingEdge="vertical"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/home_banner"/>
+                android:src="@drawable/home_banner" />
 
             <GridView
                 android:id="@+id/fourbtn_grid"
@@ -31,19 +32,19 @@
                 android:numColumns="2"
                 android:paddingTop="2px"
                 android:scrollbars="none"
-                android:verticalSpacing="2px"/>
+                android:verticalSpacing="2px" />
 
             <LinearLayout
                 android:id="@+id/home_live_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
             <LinearLayout
                 android:id="@+id/home_video_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
             <GridView
                 android:id="@+id/home_song_grid"
@@ -52,14 +53,14 @@
                 android:horizontalSpacing="10dp"
                 android:numColumns="2"
                 android:paddingTop="10dp"
-                android:verticalSpacing="10dp"/>
+                android:verticalSpacing="10dp" />
 
             <LinearLayout
                 android:id="@+id/home_mv_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+    </com.vr_mu.vrmu.views.customize.OverScrollView>
+</com.vr_mu.vrmu.views.customize.PullToRefreshView>
