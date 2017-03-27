@@ -45,7 +45,7 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
 
     @Override
     protected int setLayoutResouceId() {
-        return R.layout.fragment_live_live;
+        return R.layout.fragment_list;
     }
 
     @Override

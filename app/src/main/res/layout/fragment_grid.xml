@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.vr_mu.vrmu.views.customize.PullToRefreshView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tip_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="暂时还没有数据喔～"
+        android:textColor="@color/colorGrey"
+        android:visibility="gone"/>
+
+    <com.vr_mu.vrmu.views.customize.OverScrollView
+        android:id="@+id/over_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <GridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdge="none"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:padding="10dp"
+            android:verticalSpacing="10dp"/>
+    </com.vr_mu.vrmu.views.customize.OverScrollView>
+
+</com.vr_mu.vrmu.views.customize.PullToRefreshView>

@@ -15,39 +15,37 @@ import com.vr_mu.vrmu.gson.LiveReviewGson;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vr_mu.vrmu.R.id.img;
-
 public class ReviewAdapter extends ArrayAdapter<LiveReviewGson.DataBean> {
-    List<LiveReviewGson.DataBean> liveList = new ArrayList<LiveReviewGson.DataBean>();
+    List<LiveReviewGson.DataBean> dataList = new ArrayList<LiveReviewGson.DataBean>();
     private int resourceId;
     private Context mContext;
-    public ReviewAdapter(Context context, int songViewResourceId , List<LiveReviewGson.DataBean> lives) {
-        super(context, songViewResourceId, lives);
+    public ReviewAdapter(Context context, int songViewResourceId , List<LiveReviewGson.DataBean> items) {
+        super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
-        liveList = lives;
+        dataList = items;
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return liveList.size();
+        return dataList.size();
     }
 
     @Override
     public LiveReviewGson.DataBean getItem(int position) {
-        return liveList.get(position);
+        return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LiveReviewGson.DataBean review = getItem(position);
+        LiveReviewGson.DataBean item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
             view = LayoutInflater.from(mContext).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
 
-            viewHolder.img = (ImageView) view.findViewById(img);
+            viewHolder.img = (ImageView) view.findViewById(R.id.img);
             viewHolder.nameTv = (TextView) view.findViewById(R.id.name_tv);
             viewHolder.descTv = (TextView) view.findViewById(R.id.desc_tv);
             viewHolder.watchTv = (TextView) view.findViewById(R.id.watch_tv);
@@ -56,10 +54,10 @@ public class ReviewAdapter extends ArrayAdapter<LiveReviewGson.DataBean> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(review.name);
-        viewHolder.descTv.setText(review.desc);
-        viewHolder.watchTv.setText(review.count + "");
-        Glide.with(mContext).load(review.img).into(viewHolder.img);
+        viewHolder.nameTv.setText(item.name);
+        viewHolder.descTv.setText(item.desc);
+        viewHolder.watchTv.setText(item.count + "");
+        Glide.with(mContext).load(item.img).into(viewHolder.img);
         return view;
     }
 

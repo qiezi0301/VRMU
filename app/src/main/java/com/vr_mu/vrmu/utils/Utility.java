@@ -6,6 +6,7 @@ import com.vr_mu.vrmu.gson.LiveLiveGson;
 import com.vr_mu.vrmu.gson.LiveReviewGson;
 import com.vr_mu.vrmu.gson.LiveVarietyGson;
 import com.vr_mu.vrmu.gson.LiveVideoGson;
+import com.vr_mu.vrmu.gson.SongSongGson;
 
 /**
  * Created by zhangjialiang on 17/3/20.
@@ -76,6 +77,20 @@ public class Utility {
     public static LiveReviewGson handleReviewResponse(String response) {
         try {
             return new Gson().fromJson(response, LiveReviewGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Song实体类
+     * @param response
+     * @return
+     */
+    public static SongSongGson handleSongResponse(String response) {
+        try {
+            return new Gson().fromJson(response, SongSongGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

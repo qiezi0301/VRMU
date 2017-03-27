@@ -46,7 +46,7 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
 
     @Override
     protected int setLayoutResouceId() {
-        return R.layout.fragment_live_live;
+        return R.layout.fragment_list;
     }
 
     @Override

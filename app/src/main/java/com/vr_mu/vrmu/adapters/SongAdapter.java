@@ -15,39 +15,37 @@ import com.vr_mu.vrmu.gson.SongMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vr_mu.vrmu.R.id.img;
-
 public class SongAdapter extends ArrayAdapter<SongMenu> {
-    List<SongMenu> list = new ArrayList<SongMenu>();
+    List<SongMenu> dataList = new ArrayList<SongMenu>();
     private int resourceId;
     private Context mContext;
-    public SongAdapter(Context context, int songViewResourceId ,List<SongMenu> songMenu) {
-        super(context, songViewResourceId, songMenu);
+    public SongAdapter(Context context, int songViewResourceId ,List<SongMenu> items) {
+        super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
-        list = songMenu;
+        dataList = items;
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return dataList.size();
     }
 
     @Override
     public SongMenu getItem(int position) {
-        return list.get(position);
+        return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SongMenu songMenu = getItem(position);
+        SongMenu item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
 
-            viewHolder.img = (ImageView) view.findViewById(img);
+            viewHolder.img = (ImageView) view.findViewById(R.id.img);
             viewHolder.nameTv = (TextView) view.findViewById(R.id.name_tv);
             viewHolder.descTv = (TextView) view.findViewById(R.id.desc_tv);
             viewHolder.watchTv = (TextView) view.findViewById(R.id.watch_tv);
@@ -57,10 +55,10 @@ public class SongAdapter extends ArrayAdapter<SongMenu> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(songMenu.getName());
-        viewHolder.descTv.setText(songMenu.getDesc());
-        viewHolder.watchTv.setText(songMenu.getViewers());
-        Glide.with(mContext).load(songMenu.img).into(viewHolder.img);
+        viewHolder.nameTv.setText(item.getName());
+        viewHolder.descTv.setText(item.getDesc());
+        viewHolder.watchTv.setText(item.getViewers());
+        Glide.with(mContext).load(item.img).into(viewHolder.img);
         return view;
     }
 

@@ -15,39 +15,37 @@ import com.vr_mu.vrmu.gson.LiveVarietyGson;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vr_mu.vrmu.R.id.img;
-
 public class VarietyAdapter extends ArrayAdapter<LiveVarietyGson.DataBean> {
-    List<LiveVarietyGson.DataBean> liveList = new ArrayList<LiveVarietyGson.DataBean>();
+    List<LiveVarietyGson.DataBean> dataList = new ArrayList<LiveVarietyGson.DataBean>();
     private int resourceId;
     private Context mContext;
-    public VarietyAdapter(Context context, int songViewResourceId , List<LiveVarietyGson.DataBean> lives) {
-        super(context, songViewResourceId, lives);
+    public VarietyAdapter(Context context, int songViewResourceId , List<LiveVarietyGson.DataBean> items) {
+        super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
-        liveList = lives;
+        dataList = items;
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return liveList.size();
+        return dataList.size();
     }
 
     @Override
     public LiveVarietyGson.DataBean getItem(int position) {
-        return liveList.get(position);
+        return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LiveVarietyGson.DataBean live = getItem(position);
+        LiveVarietyGson.DataBean item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
             view = LayoutInflater.from(mContext).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
 
-            viewHolder.img = (ImageView) view.findViewById(img);
+            viewHolder.img = (ImageView) view.findViewById(R.id.img);
             viewHolder.nameTv = (TextView) view.findViewById(R.id.name_tv);
             viewHolder.descTv = (TextView) view.findViewById(R.id.desc_tv);
             viewHolder.watchTv = (TextView) view.findViewById(R.id.watch_tv);
@@ -56,10 +54,10 @@ public class VarietyAdapter extends ArrayAdapter<LiveVarietyGson.DataBean> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(live.hostname);
-        viewHolder.descTv.setText(live.desc);
-        viewHolder.watchTv.setText(live.viewers + "");
-        Glide.with(mContext).load(live.img).into(viewHolder.img);
+        viewHolder.nameTv.setText(item.hostname);
+        viewHolder.descTv.setText(item.desc);
+        viewHolder.watchTv.setText(item.viewers + "");
+        Glide.with(mContext).load(item.img).into(viewHolder.img);
         return view;
     }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.vr_mu.vrmu.views.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content">
+<com.vr_mu.vrmu.views.SquareLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/img"
@@ -34,8 +35,8 @@
             android:id="@+id/desc_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="明细艺人"
             android:lines="1"
+            android:text="明细艺人"
             android:textColor="@color/colorWhite"
             android:textSize="10sp"/>
     </LinearLayout>

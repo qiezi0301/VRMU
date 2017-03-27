@@ -10,19 +10,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.gson.LiveVideoGson;
+import com.vr_mu.vrmu.gson.SongSongGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoAdapter extends ArrayAdapter<LiveVideoGson.DataBean> {
-    List<LiveVideoGson.DataBean> dataList = new ArrayList<LiveVideoGson.DataBean>();
+public class MusicAdapter extends ArrayAdapter<SongSongGson.DataBean> {
+
+    List<SongSongGson.DataBean> dataList = new ArrayList<>();
     private int resourceId;
     private Context mContext;
-    public VideoAdapter(Context context, int songViewResourceId , List<LiveVideoGson.DataBean> lists) {
-        super(context, songViewResourceId, lists);
+    public MusicAdapter(Context context, int songViewResourceId , List<SongSongGson.DataBean> items) {
+        super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
-        dataList = lists;
+        dataList = items;
         mContext = context;
     }
 
@@ -32,13 +33,13 @@ public class VideoAdapter extends ArrayAdapter<LiveVideoGson.DataBean> {
     }
 
     @Override
-    public LiveVideoGson.DataBean getItem(int position) {
+    public SongSongGson.DataBean getItem(int position) {
         return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LiveVideoGson.DataBean item = getItem(position);
+        SongSongGson.DataBean item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
@@ -54,10 +55,9 @@ public class VideoAdapter extends ArrayAdapter<LiveVideoGson.DataBean> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(item.name);
-        viewHolder.descTv.setText(item.desc);
-        //TODO忘记转换类型会导致空指针错误
-        viewHolder.watchTv.setText(item.count + "");
+        viewHolder.nameTv.setText(item.title );
+        viewHolder.descTv.setText(item.intro );
+        viewHolder.watchTv.setText(item.views + "");
         Glide.with(mContext).load(item.img).into(viewHolder.img);
         return view;
     }
