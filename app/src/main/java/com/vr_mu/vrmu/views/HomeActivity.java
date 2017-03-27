@@ -27,7 +27,7 @@ public class HomeActivity extends BaseActivity {
      * Fragment数组界面
      */
     private final Class mFragmentArray[] = {LiveHomeFragment.class, SongHomeFragment.class, HomeFragment.class, ServerHomeFragment.class, FindHomeFragment.class};
-    private int mImageArray[] = {R.drawable.live_btn, R.drawable.ic_tab_music, 0, R.drawable.ic_tab_service, R.drawable.ic_tab_find};
+    private int mImageArray[] = {R.drawable.ic_tab_live, R.drawable.ic_tab_music, 0, R.drawable.ic_tab_service, R.drawable.ic_tab_find};
     private String mTextArray[] = {"哇-Live", "音乐", "", "服务", "发现"};
 
     private LayoutInflater mLayoutInflater;
