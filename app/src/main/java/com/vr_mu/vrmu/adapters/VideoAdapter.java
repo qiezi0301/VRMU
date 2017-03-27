@@ -11,17 +11,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
 import com.vr_mu.vrmu.gson.Live;
+import com.vr_mu.vrmu.gson.Video;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.vr_mu.vrmu.R.id.img;
 
-public class VarietyAdapter extends ArrayAdapter<Live> {
-    List<Live> liveList = new ArrayList<Live>();
+public class VideoAdapter extends ArrayAdapter<Live> {
+    List<Video> liveList = new ArrayList<Video>();
     private int resourceId;
     private Context mContext;
-    public VarietyAdapter(Context context, int songViewResourceId , List<Live> lives) {
+    public VideoAdapter(Context context, int songViewResourceId , List<Video> lives) {
         super(context, songViewResourceId, lives);
         resourceId = songViewResourceId;
         liveList = lives;

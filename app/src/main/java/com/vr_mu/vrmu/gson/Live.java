@@ -2,7 +2,7 @@ package com.vr_mu.vrmu.gson;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
+/**直播列表的bean 文件
  * Created by zhangjialiang on 17/3/27.
  */
 
