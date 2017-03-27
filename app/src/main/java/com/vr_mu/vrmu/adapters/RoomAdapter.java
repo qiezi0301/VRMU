@@ -1,6 +1,7 @@
 package com.vr_mu.vrmu.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class RoomAdapter extends ArrayAdapter<Live> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Live live = getItem(position);
+        Log.d("RoomAdapter", "getView:------------ " + liveList.size());
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {

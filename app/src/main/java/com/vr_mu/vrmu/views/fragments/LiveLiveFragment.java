@@ -53,9 +53,7 @@ public class LiveLiveFragment extends BaseFragment {
                 requestLiveData();
             }
         });
-
         requestLiveData();
-
 
     }
 
@@ -112,7 +110,7 @@ public class LiveLiveFragment extends BaseFragment {
             liveList.add(live);
             Log.d(TAG, "showLiveInfo>>>>>>>>>>>>>>>>: " + live.name);
         }
-        RoomAdapter liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveList);
+        RoomAdapter liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveHome.liveRoomList);
         listView.setAdapter(liveAdapter);
 
     }
