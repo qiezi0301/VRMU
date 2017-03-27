@@ -17,11 +17,11 @@ import java.util.List;
 
 import static com.vr_mu.vrmu.R.id.img;
 
-public class RoomAdapter extends ArrayAdapter<Live> {
+public class VarietyAdapter extends ArrayAdapter<Live> {
     List<Live> liveList = new ArrayList<Live>();
     private int resourceId;
     private Context mContext;
-    public RoomAdapter(Context context, int songViewResourceId , List<Live> lives) {
+    public VarietyAdapter(Context context, int songViewResourceId , List<Live> lives) {
         super(context, songViewResourceId, lives);
         resourceId = songViewResourceId;
         liveList = lives;
@@ -51,7 +51,6 @@ public class RoomAdapter extends ArrayAdapter<Live> {
             viewHolder.nameTv = (TextView) view.findViewById(R.id.name_tv);
             viewHolder.descTv = (TextView) view.findViewById(R.id.desc_tv);
             viewHolder.watchTv = (TextView) view.findViewById(R.id.watch_tv);
-
             view.setTag(viewHolder);
         }else{
             view = convertView;

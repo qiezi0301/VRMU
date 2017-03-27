@@ -18,7 +18,6 @@ import com.vr_mu.vrmu.gson.LiveHome;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
-import com.vr_mu.vrmu.views.customize.LoadingProgressDialog;
 import com.vr_mu.vrmu.views.customize.PullToRefreshView;
 
 import org.json.JSONException;
@@ -32,17 +31,18 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**
+/**直播列表页
  * A simple {@link Fragment} subclass.
  */
 public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
 
-    private LoadingProgressDialog mLoadingDialog;
+
     private PullToRefreshView mPullToRefreshView;
 
     private View bannerview;
     private ListView listView;
     private List<Live> liveList = new ArrayList<>();
+    private RoomAdapter liveAdapter;
 
     private ScrollView sv;
 
@@ -58,10 +58,10 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         listView.addHeaderView(bannerview);
 
         //初始化刷新控件
-        mLoadingDialog = LoadingProgressDialog.createDialog(getActivity());
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
 
+        //设置ScrollView默认定位顶部
         sv = findViewById(R.id.over_scroll);
         sv.smoothScrollTo(0, 0);
 
@@ -71,13 +71,13 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
 
         if (liveInfoString != null) {
             LiveHome liveHome = Utility.handleLiveResponse(liveInfoString);
-            mPullToRefreshView.setOnHeaderRefreshListener(LiveLiveFragment.this);
             showLiveInfo(liveHome);
         } else {
             requestLiveData();
         }
 
-
+        //设置下拉监听器
+        mPullToRefreshView.setOnHeaderRefreshListener(LiveLiveFragment.this);
     }
 
     private void requestLiveData() {
@@ -98,7 +98,6 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
                     @Override
                     public void run() {
                         Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
-
                     }
                 });
             }
@@ -130,9 +129,8 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
             liveList.add(live);
             Log.d(TAG, "showLiveInfo>>>>>>>>>>>>>>>>: " + live.name);
         }
-        RoomAdapter liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveHome.liveRoomList);
+        liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveHome.liveRoomList);
         listView.setAdapter(liveAdapter);
-
     }
 
     @Override
@@ -145,4 +143,5 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
             }
         }, 1000);
     }
+
 }
