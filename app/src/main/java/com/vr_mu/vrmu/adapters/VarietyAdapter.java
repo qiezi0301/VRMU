@@ -10,18 +10,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.gson.Live;
+import com.vr_mu.vrmu.gson.LiveVarietyGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.vr_mu.vrmu.R.id.img;
 
-public class VarietyAdapter extends ArrayAdapter<Live> {
-    List<Live> liveList = new ArrayList<Live>();
+public class VarietyAdapter extends ArrayAdapter<LiveVarietyGson.DataBean> {
+    List<LiveVarietyGson.DataBean> liveList = new ArrayList<LiveVarietyGson.DataBean>();
     private int resourceId;
     private Context mContext;
-    public VarietyAdapter(Context context, int songViewResourceId , List<Live> lives) {
+    public VarietyAdapter(Context context, int songViewResourceId , List<LiveVarietyGson.DataBean> lives) {
         super(context, songViewResourceId, lives);
         resourceId = songViewResourceId;
         liveList = lives;
@@ -34,13 +34,13 @@ public class VarietyAdapter extends ArrayAdapter<Live> {
     }
 
     @Override
-    public Live getItem(int position) {
+    public LiveVarietyGson.DataBean getItem(int position) {
         return liveList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Live live = getItem(position);
+        LiveVarietyGson.DataBean live = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
@@ -56,9 +56,9 @@ public class VarietyAdapter extends ArrayAdapter<Live> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(live.getName());
-        viewHolder.descTv.setText(live.getDesc());
-        viewHolder.watchTv.setText(live.getViewers() + "");
+        viewHolder.nameTv.setText(live.hostname);
+        viewHolder.descTv.setText(live.desc);
+        viewHolder.watchTv.setText(live.viewers + "");
         Glide.with(mContext).load(live.img).into(viewHolder.img);
         return view;
     }

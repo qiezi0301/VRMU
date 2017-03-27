@@ -4,17 +4,16 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.adapters.RoomAdapter;
-import com.vr_mu.vrmu.gson.Live;
-import com.vr_mu.vrmu.gson.LiveHome;
+import com.vr_mu.vrmu.adapters.LiveAdapter;
+import com.vr_mu.vrmu.gson.LiveLiveGson;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -24,8 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,10 +38,10 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
 
     private View bannerview;
     private ListView listView;
-    private List<Live> liveList = new ArrayList<>();
-    private RoomAdapter liveAdapter;
+    private LiveAdapter liveAdapter;
 
     private ScrollView sv;
+    private TextView tipTV;
 
     @Override
     protected int setLayoutResouceId() {
@@ -56,7 +53,7 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         bannerview = LayoutInflater.from(mActivity).inflate(R.layout.lay_banner, null);
         listView = findViewById(R.id.list_view);
         listView.addHeaderView(bannerview);
-
+        tipTV = findViewById(R.id.tip_tv);
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -70,8 +67,8 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         String liveInfoString = preferences.getString("liveInfo", null);
 
         if (liveInfoString != null) {
-            LiveHome liveHome = Utility.handleLiveResponse(liveInfoString);
-            showLiveInfo(liveHome);
+            LiveLiveGson liveLive = Utility.handleLiveResponse(liveInfoString);
+            showLiveInfo(liveLive);
         } else {
             requestLiveData();
         }
@@ -105,15 +102,15 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                final LiveHome liveHome = Utility.handleLiveResponse(responseText);
+                final LiveLiveGson liveLive = Utility.handleLiveResponse(responseText);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (liveHome != null && "success".equals(liveHome.msg)) {
+                        if (liveLive != null && "success".equals(liveLive.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.putString("liveInfo", responseText);
                             editor.apply();
-                            showLiveInfo(liveHome);
+                            showLiveInfo(liveLive);
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -124,13 +121,14 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         });
     }
 
-    private void showLiveInfo(LiveHome liveHome) {
-        for (Live live : liveHome.liveRoomList) {
-            liveList.add(live);
-            Log.d(TAG, "showLiveInfo>>>>>>>>>>>>>>>>: " + live.name);
+    private void showLiveInfo(LiveLiveGson liveLive) {
+        if (liveLive.data.size() != 0) {
+            tipTV.setVisibility(View.GONE);
+            liveAdapter = new LiveAdapter(mActivity, R.layout.live_item, liveLive.data);
+            listView.setAdapter(liveAdapter);
+        }else {
+            tipTV.setVisibility(View.VISIBLE);
         }
-        liveAdapter = new RoomAdapter(mActivity, R.layout.live_item, liveHome.liveRoomList);
-        listView.setAdapter(liveAdapter);
     }
 
     @Override

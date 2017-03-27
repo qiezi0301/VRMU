@@ -36,4 +36,6 @@ public class Video {
 
     @SerializedName("path")
     public String path;
+
+
 }

@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by zhangjialiang on 17/3/26.
+/**直播GSON
+ * Created by zhangjialiang on 17/3/27.
  */
 
-public class LiveHome {
+public class LiveLiveGson {
 
     /**
      * code : 0
@@ -24,5 +24,47 @@ public class LiveHome {
     @SerializedName("location")
     public String location;
     @SerializedName("data")
-    public List<Live> liveRoomList;
+    public List<DataBean> data;
+
+    public static class DataBean {
+        /**
+         * roomlive_id : 31
+         * hostname : VR直播测试
+         * headimg :
+         * cate_id : 0
+         * img : http://api.vr-mu.com/Uploads/room/img/58afddaab82ab.jpg
+         * desc : 这是“VR直播测试”的描述
+         * viewers : 83
+         * pathtype : 1
+         * path : http://live.gzcnad.com/AppName/StreamName.m3u8
+         * subscribers : 0
+         * createtime : 0
+         * isCollect : 0
+         */
+
+        @SerializedName("roomlive_id")
+        public String roomliveId;
+        @SerializedName("hostname")
+        public String hostname;
+        @SerializedName("headimg")
+        public String headimg;
+        @SerializedName("cate_id")
+        public String cateId;
+        @SerializedName("img")
+        public String img;
+        @SerializedName("desc")
+        public String desc;
+        @SerializedName("viewers")
+        public int viewers;
+        @SerializedName("pathtype")
+        public int pathtype;
+        @SerializedName("path")
+        public String path;
+        @SerializedName("subscribers")
+        public int subscribers;
+        @SerializedName("createtime")
+        public String createtime;
+        @SerializedName("isCollect")
+        public int isCollect;
+    }
 }

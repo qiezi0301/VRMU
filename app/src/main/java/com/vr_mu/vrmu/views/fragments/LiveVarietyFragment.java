@@ -4,17 +4,16 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vr_mu.vrmu.R;
 import com.vr_mu.vrmu.adapters.VarietyAdapter;
-import com.vr_mu.vrmu.gson.Live;
-import com.vr_mu.vrmu.gson.LiveHome;
+import com.vr_mu.vrmu.gson.LiveVarietyGson;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -24,8 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,10 +39,10 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
 
     private View bannerview;
     private ListView listView;
-    private List<Live> liveList = new ArrayList<>();
     private VarietyAdapter varietyAdapter;
 
     private ScrollView sv;
+    private TextView tipTV;
 
     @Override
     protected int setLayoutResouceId() {
@@ -57,7 +54,7 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
         bannerview = LayoutInflater.from(mActivity).inflate(R.layout.lay_banner, null);
         listView = findViewById(R.id.list_view);
         listView.addHeaderView(bannerview);
-
+        tipTV = findViewById(R.id.tip_tv);
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -71,8 +68,8 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
         String liveInfoString = preferences.getString("varietyInfo", null);
 
         if (liveInfoString != null) {
-            LiveHome liveHome = Utility.handleLiveResponse(liveInfoString);
-            showLiveInfo(liveHome);
+            LiveVarietyGson liveVariety = Utility.handleVarietResponse(liveInfoString);
+            showLiveInfo(liveVariety);
         } else {
             requestLiveData();
         }
@@ -106,15 +103,15 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                final LiveHome liveHome = Utility.handleLiveResponse(responseText);
+                final LiveVarietyGson liveVariety = Utility.handleVarietResponse(responseText);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (liveHome != null && "success".equals(liveHome.msg)) {
+                        if (liveVariety != null && "success".equals(liveVariety.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.putString("varietyInfo", responseText);
                             editor.apply();
-                            showLiveInfo(liveHome);
+                            showLiveInfo(liveVariety);
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -125,13 +122,14 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
         });
     }
 
-    private void showLiveInfo(LiveHome liveHome) {
-        for (Live live : liveHome.liveRoomList) {
-            liveList.add(live);
-            Log.d(TAG, "showLiveInfo>>>>>>>>>>>>>>>>: " + live.name);
+    private void showLiveInfo(LiveVarietyGson liveVariety) {
+        if (liveVariety.data.size() != 0) {
+            tipTV.setVisibility(View.GONE);
+            varietyAdapter = new VarietyAdapter(mActivity, R.layout.video_item, liveVariety.data);
+            listView.setAdapter(varietyAdapter);
+        } else {
+            tipTV.setVisibility(View.VISIBLE);
         }
-        varietyAdapter = new VarietyAdapter(mActivity, R.layout.video_item, liveHome.liveRoomList);
-        listView.setAdapter(varietyAdapter);
     }
 
     @Override

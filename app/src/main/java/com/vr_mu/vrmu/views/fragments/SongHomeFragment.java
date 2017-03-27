@@ -22,7 +22,7 @@ public class SongHomeFragment extends BaseFragment {
         TabLayout mTabLayout = findViewById(R.id.tabs);                  //定义TabLayout
         ViewPager mViewPager = findViewById(R.id.child_fragment_pager);  //定义viewPager
 
-        final List<BaseFragment> list_fragment = Arrays.asList(new SongSongFragment(), new SongMvFragment(), new SongSingerFragment(), new SongAlbumFragment(), new SongHotFragment());
+        final List<? extends Fragment> list_fragment = Arrays.asList(new SongSongFragment(), new SongMvFragment(), new SongSingerFragment(), new SongAlbumFragment(), new SongHotFragment());
 
         final List<String> list_title = Arrays.asList("歌单", "MV", "歌手", "专辑", "热榜");  //tab名称列表
 

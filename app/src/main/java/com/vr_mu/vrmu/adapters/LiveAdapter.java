@@ -10,18 +10,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.gson.Live;
+import com.vr_mu.vrmu.gson.LiveLiveGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.vr_mu.vrmu.R.id.img;
 
-public class RoomAdapter extends ArrayAdapter<Live> {
-    List<Live> liveList = new ArrayList<Live>();
+public class LiveAdapter extends ArrayAdapter<LiveLiveGson.DataBean> {
+    List<LiveLiveGson.DataBean> liveList = new ArrayList<LiveLiveGson.DataBean>();
     private int resourceId;
     private Context mContext;
-    public RoomAdapter(Context context, int songViewResourceId , List<Live> lives) {
+    public LiveAdapter(Context context, int songViewResourceId , List<LiveLiveGson.DataBean> lives) {
         super(context, songViewResourceId, lives);
         resourceId = songViewResourceId;
         liveList = lives;
@@ -34,13 +34,13 @@ public class RoomAdapter extends ArrayAdapter<Live> {
     }
 
     @Override
-    public Live getItem(int position) {
+    public LiveLiveGson.DataBean getItem(int position) {
         return liveList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Live live = getItem(position);
+        LiveLiveGson.DataBean live = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
@@ -57,9 +57,9 @@ public class RoomAdapter extends ArrayAdapter<Live> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(live.getName());
-        viewHolder.descTv.setText(live.getDesc());
-        viewHolder.watchTv.setText(live.getViewers() + "");
+        viewHolder.nameTv.setText(live.hostname);
+        viewHolder.descTv.setText(live.desc);
+        viewHolder.watchTv.setText(live.viewers + "");
         Glide.with(mContext).load(live.img).into(viewHolder.img);
         return view;
     }

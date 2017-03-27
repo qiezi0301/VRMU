@@ -4,14 +4,15 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vr_mu.vrmu.R;
 import com.vr_mu.vrmu.adapters.VideoAdapter;
-import com.vr_mu.vrmu.gson.Live;
-import com.vr_mu.vrmu.gson.LiveHome;
+import com.vr_mu.vrmu.gson.LiveVideoGson;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -21,14 +22,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**
+/**影视碎片视图
  * A simple {@link Fragment} subclass.
  */
 public class LiveVideoFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
@@ -36,11 +35,10 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
 
 
     private ListView listView;
-    private List<Live> liveList = new ArrayList<>();
     private VideoAdapter videoAdapter;
 
     private ScrollView sv;
-
+    private TextView tipTV;
     //用于筛选的参数
     private String type = "0";
     private String area = "0";
@@ -54,7 +52,7 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
     protected void initView() {
 
         listView = findViewById(R.id.list_view);
-
+        tipTV = findViewById(R.id.tip_tv);
 
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
@@ -69,8 +67,8 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
         String liveInfoString = preferences.getString("videoInfo", null);
 
         if (liveInfoString != null) {
-            LiveHome liveHome = Utility.handleLiveResponse(liveInfoString);
-            showLiveInfo(liveHome);
+            LiveVideoGson liveVideo = Utility.handleVideoResponse(liveInfoString);
+            showLiveInfo(liveVideo);
         } else {
             requestLiveData(type, area);
         }
@@ -105,15 +103,15 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                final LiveHome liveHome = Utility.handleLiveResponse(responseText);
+                final LiveVideoGson liveVideo = Utility.handleVideoResponse(responseText);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (liveHome != null && "success".equals(liveHome.msg)) {
+                        if (liveVideo != null && "success".equals(liveVideo.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.putString("videoInfo", responseText);
                             editor.apply();
-                            showLiveInfo(liveHome);
+                            showLiveInfo(liveVideo);
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -124,9 +122,14 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
         });
     }
 
-    private void showLiveInfo(LiveHome liveHome) {
-        videoAdapter = new VideoAdapter(mActivity, R.layout.video_item, liveHome.liveRoomList);
-        listView.setAdapter(videoAdapter);
+    private void showLiveInfo(LiveVideoGson liveVideo) {
+        if (liveVideo.data.size() != 0) {
+            tipTV.setVisibility(View.GONE);
+            videoAdapter = new VideoAdapter(mActivity, R.layout.video_item, liveVideo.data);
+            listView.setAdapter(videoAdapter);
+        } else {
+            tipTV.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

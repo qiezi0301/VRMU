@@ -23,7 +23,7 @@ public class LiveHomeFragment extends BaseFragment {
         TabLayout mTabLayout = findViewById(R.id.tabs);                  //定义TabLayout
         ViewPager mViewPager = findViewById(R.id.child_fragment_pager);  //定义viewPager
 
-        final List<BaseFragment> list_fragment =  Arrays.asList(new LiveLiveFragment(), new LiveVarietyFragment(), new LiveVideoFragment(), new LiveReviewFragment());
+        final List<? extends Fragment> list_fragment =  Arrays.asList(new LiveLiveFragment(), new LiveVarietyFragment(), new LiveVideoFragment(), new LiveReviewFragment());
 
         final List<String> list_title = Arrays.asList("Live", "综艺", "影视", "回顾");  //定义要装tabname的列表
 
