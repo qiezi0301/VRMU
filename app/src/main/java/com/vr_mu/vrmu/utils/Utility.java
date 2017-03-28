@@ -1,11 +1,13 @@
 package com.vr_mu.vrmu.utils;
 
 import com.google.gson.Gson;
-import com.vr_mu.vrmu.gson.Home;
+import com.vr_mu.vrmu.gson.HomeGson;
 import com.vr_mu.vrmu.gson.LiveLiveGson;
 import com.vr_mu.vrmu.gson.LiveReviewGson;
 import com.vr_mu.vrmu.gson.LiveVarietyGson;
 import com.vr_mu.vrmu.gson.LiveVideoGson;
+import com.vr_mu.vrmu.gson.SongAlbumGson;
+import com.vr_mu.vrmu.gson.SongMvGson;
 import com.vr_mu.vrmu.gson.SongSongGson;
 
 /**
@@ -18,9 +20,9 @@ public class Utility {
      * @param response
      * @return
      */
-    public static Home handleHomeResponse(String response){
+    public static HomeGson handleHomeResponse(String response){
         try {
-            return new Gson().fromJson(response, Home.class);
+            return new Gson().fromJson(response, HomeGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,6 +93,34 @@ public class Utility {
     public static SongSongGson handleSongResponse(String response) {
         try {
             return new Gson().fromJson(response, SongSongGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Song实体类
+     * @param response
+     * @return
+     */
+    public static SongMvGson handleMvResponse(String response) {
+        try {
+            return new Gson().fromJson(response, SongMvGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成songAlbum实体类
+     * @param response
+     * @return
+     */
+    public static SongAlbumGson handleAlbumResponse(String response) {
+        try {
+            return new Gson().fromJson(response, SongAlbumGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

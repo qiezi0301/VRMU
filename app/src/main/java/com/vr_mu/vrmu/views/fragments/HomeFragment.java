@@ -19,11 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
 import com.vr_mu.vrmu.adapters.SongAdapter;
-import com.vr_mu.vrmu.gson.Home;
-import com.vr_mu.vrmu.gson.LiveRoom;
-import com.vr_mu.vrmu.gson.Mv;
-import com.vr_mu.vrmu.gson.SongMenu;
-import com.vr_mu.vrmu.gson.Video;
+import com.vr_mu.vrmu.gson.HomeGson;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -87,9 +83,9 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         String homeInfoString = preferences.getString("homeInfo", null);
 
         if (homeInfoString != null) {
-            Home home = Utility.handleHomeResponse(homeInfoString);
+            HomeGson homeData = Utility.handleHomeResponse(homeInfoString);
             mPullToRefreshView.setOnHeaderRefreshListener(HomeFragment.this);
-            showHomeInfo(home);
+            showHomeInfo(homeData);
         } else {
             requestHomeData();
         }
@@ -122,16 +118,16 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                final Home home = Utility.handleHomeResponse(responseText);
+                final HomeGson homeData = Utility.handleHomeResponse(responseText);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (home != null && "success".equals(home.msg)) {
+                        if (homeData != null && "success".equals(homeData.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.putString("homeInfo", responseText);
                             editor.apply();
                             mPullToRefreshView.setOnHeaderRefreshListener(HomeFragment.this);
-                            showHomeInfo(home);
+                            showHomeInfo(homeData);
                         } else {
                             Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -142,10 +138,10 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         });
     }
 
-    private void showHomeInfo(Home home) {
+    private void showHomeInfo(HomeGson homeData) {
 
         homeLiveLayout.removeAllViews();
-        for (LiveRoom liveRoom : home.homeData.liveRoomList) {
+        for (HomeGson.DataBean.LiveRoomBean liveRoom : homeData.data.LiveRoom) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.live_item, homeLiveLayout, false);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
@@ -161,7 +157,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         }
 
         homevideolayout.removeAllViews();
-        for (Video video : home.homeData.videoList) {
+        for (HomeGson.DataBean.VideoBean video : homeData.data.Video) {
 
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.video_item, homevideolayout, false);
             ImageView img123 = (ImageView) view.findViewById(img);
@@ -169,34 +165,29 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
 
-            watchtv.setText(video.viewers);
+            watchtv.setText(video.count);
             causetv.setText(video.desc);
             nametv.setText(video.name);
             Glide.with(this).load(video.img).into(img123);
             homevideolayout.addView(view);
         }
 
-        List<SongMenu> songList = new ArrayList<>();
         homeSongGrid = (GridView) view.findViewById(R.id.home_song_grid);
-
-        for (SongMenu songMenu : home.homeData.songMenu) {
-            songList.add(songMenu);
-        }
-        SongAdapter songAdapter = new SongAdapter(getActivity(), R.layout.song_item, songList);
+        SongAdapter songAdapter = new SongAdapter(getActivity(), R.layout.song_item, homeData.data.SongMenu);
         homeSongGrid.setAdapter(songAdapter);
 
-        List<Mv> mvList = home.homeData.mvList;
+
         homeMvLayout.removeAllViews();
-        for (Mv mv : mvList) {
+        for (HomeGson.DataBean.MvBean mv : homeData.data.Mv) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.mv_item, homeMvLayout, false);
             ImageView img123 = (ImageView) view.findViewById(img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
 
-            watchtv.setText(mv.viewers);
+            watchtv.setText(mv.views + "");
             causetv.setText(mv.desc);
-            nametv.setText(mv.name);
+            nametv.setText(mv.title);
             Glide.with(this).load(mv.img).into(img123);
             homeMvLayout.addView(view);
         }

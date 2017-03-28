@@ -10,16 +10,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.gson.HomeGson;
+import com.vr_mu.vrmu.gson.SongAlbumGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongAdapter extends ArrayAdapter<HomeGson.DataBean.SongMenuBean> {
-    List<HomeGson.DataBean.SongMenuBean> dataList = new ArrayList<HomeGson.DataBean.SongMenuBean>();
+public class AlbumAdapter extends ArrayAdapter<SongAlbumGson.DataBean> {
+
+    List<SongAlbumGson.DataBean> dataList = new ArrayList<>();
     private int resourceId;
     private Context mContext;
-    public SongAdapter(Context context, int songViewResourceId ,List<HomeGson.DataBean.SongMenuBean> items) {
+    public AlbumAdapter(Context context, int songViewResourceId , List<SongAlbumGson.DataBean> items) {
         super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
         dataList = items;
@@ -32,31 +33,30 @@ public class SongAdapter extends ArrayAdapter<HomeGson.DataBean.SongMenuBean> {
     }
 
     @Override
-    public HomeGson.DataBean.SongMenuBean getItem(int position) {
+    public SongAlbumGson.DataBean getItem(int position) {
         return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        HomeGson.DataBean.SongMenuBean item = getItem(position);
+        SongAlbumGson.DataBean item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+            view = LayoutInflater.from(mContext).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
 
             viewHolder.img = (ImageView) view.findViewById(R.id.img);
             viewHolder.nameTv = (TextView) view.findViewById(R.id.name_tv);
             viewHolder.descTv = (TextView) view.findViewById(R.id.desc_tv);
             viewHolder.watchTv = (TextView) view.findViewById(R.id.watch_tv);
-
             view.setTag(viewHolder);
         }else{
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.nameTv.setText(item.title);
-        viewHolder.descTv.setText(item.desc);
+        viewHolder.nameTv.setText(item.title );
+        viewHolder.descTv.setText(item.singer );
         viewHolder.watchTv.setText(item.views + "");
         Glide.with(mContext).load(item.img).into(viewHolder.img);
         return view;
