@@ -7,7 +7,9 @@ import com.vr_mu.vrmu.gson.LiveReviewGson;
 import com.vr_mu.vrmu.gson.LiveVarietyGson;
 import com.vr_mu.vrmu.gson.LiveVideoGson;
 import com.vr_mu.vrmu.gson.SongAlbumGson;
+import com.vr_mu.vrmu.gson.SongHotGson;
 import com.vr_mu.vrmu.gson.SongMvGson;
+import com.vr_mu.vrmu.gson.SongSingerGson;
 import com.vr_mu.vrmu.gson.SongSongGson;
 
 /**
@@ -121,6 +123,34 @@ public class Utility {
     public static SongAlbumGson handleAlbumResponse(String response) {
         try {
             return new Gson().fromJson(response, SongAlbumGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成songAlbum实体类
+     * @param response
+     * @return
+     */
+    public static SongSingerGson handleSingerResponse(String response) {
+        try {
+            return new Gson().fromJson(response, SongSingerGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成songAlbum实体类
+     * @param response
+     * @return
+     */
+    public static SongHotGson handleHotResponse(String response) {
+        try {
+            return new Gson().fromJson(response, SongHotGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

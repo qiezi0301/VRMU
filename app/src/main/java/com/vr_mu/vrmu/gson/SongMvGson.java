@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
+/**MV
  * Created by zhangjialiang on 17/3/28.
  */
 

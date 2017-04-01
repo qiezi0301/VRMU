@@ -10,17 +10,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.gson.SingerGson;
+import com.vr_mu.vrmu.gson.SongSingerGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingerAdapter extends ArrayAdapter<SingerGson.DataBean> {
+public class SingerAdapter extends ArrayAdapter<SongSingerGson.DataBean> {
 
-    List<SingerGson.DataBean> dataList = new ArrayList<>();
+    List<SongSingerGson.DataBean> dataList = new ArrayList<>();
     private int resourceId;
     private Context mContext;
-    public SingerAdapter(Context context, int songViewResourceId , List<SingerGson.DataBean> items) {
+    public SingerAdapter(Context context, int songViewResourceId , List<SongSingerGson.DataBean> items) {
         super(context, songViewResourceId, items);
         resourceId = songViewResourceId;
         dataList = items;
@@ -33,13 +33,13 @@ public class SingerAdapter extends ArrayAdapter<SingerGson.DataBean> {
     }
 
     @Override
-    public SingerGson.DataBean getItem(int position) {
+    public SongSingerGson.DataBean getItem(int position) {
         return dataList.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SingerGson.DataBean item = getItem(position);
+        SongSingerGson.DataBean item = getItem(position);
         View view;
         ViewHolder viewHolder = null;
         if (convertView == null) {

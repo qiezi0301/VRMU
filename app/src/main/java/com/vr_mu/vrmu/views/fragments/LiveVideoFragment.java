@@ -52,6 +52,7 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
     protected void initView() {
 
         listView = findViewById(R.id.list_view);
+        listView.setDividerHeight(0);
         tipTV = findViewById(R.id.tip_tv);
 
         //初始化刷新控件
@@ -95,7 +96,7 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -113,7 +114,7 @@ public class LiveVideoFragment extends BaseFragment implements PullToRefreshView
                             editor.apply();
                             showLiveInfo(liveVideo);
                         } else {
-                            Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
 
                     }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
+/**歌单
  * Created by zhangjialiang on 17/3/28.
  */
 

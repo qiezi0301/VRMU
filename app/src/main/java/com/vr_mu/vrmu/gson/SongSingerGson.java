@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
+/**歌手
  * Created by zhangjialiang on 17/3/29.
  */
 
-public class SingerGson {
+public class SongSingerGson {
 
     /**
      * code : 0

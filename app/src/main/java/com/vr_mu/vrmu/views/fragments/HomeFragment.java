@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         mLoadingDialog.dismiss();
                     }
                 });
@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
                             mPullToRefreshView.setOnHeaderRefreshListener(HomeFragment.this);
                             showHomeInfo(homeData);
                         } else {
-                            Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
                         mLoadingDialog.dismiss();
                     }

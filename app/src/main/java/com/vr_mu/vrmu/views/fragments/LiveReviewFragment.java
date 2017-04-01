@@ -54,6 +54,7 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
     protected void initView() {
 
         listView = findViewById(R.id.list_view);
+        listView.setDividerHeight(0);
         tipTV = findViewById(R.id.tip_tv);
 
         //初始化刷新控件
@@ -66,10 +67,10 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
 
         //读取本地是否有缓存文件
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String liveInfoString = preferences.getString("reviewInfo", null);
+        String preInfoString = preferences.getString("reviewInfo", null);
 
-        if (liveInfoString != null) {
-            LiveReviewGson liveReview = Utility.handleReviewResponse(liveInfoString);
+        if (preInfoString != null) {
+            LiveReviewGson liveReview = Utility.handleReviewResponse(preInfoString);
             showLiveInfo(liveReview);
         } else {
             requestLiveData(type, area);
@@ -97,7 +98,7 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -115,7 +116,7 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
                             editor.apply();
                             showLiveInfo(liveReview);
                         } else {
-                            Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
 
                     }

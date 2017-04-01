@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vr_mu.vrmu.R;
-import com.vr_mu.vrmu.adapters.MusicAdapter;
-import com.vr_mu.vrmu.gson.SongSongGson;
+import com.vr_mu.vrmu.adapters.SingerAdapter;
+import com.vr_mu.vrmu.gson.SongSingerGson;
 import com.vr_mu.vrmu.presenters.UserServerHelper;
 import com.vr_mu.vrmu.utils.HttpUtil;
 import com.vr_mu.vrmu.utils.Utility;
@@ -34,7 +34,7 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
     private PullToRefreshView mPullToRefreshView;
 
     private GridView gridView;
-    private MusicAdapter musicAdapter;
+    private SingerAdapter singerAdapter;
 
     private ScrollView sv;
     private TextView tipTV;
@@ -52,6 +52,7 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
     protected void initView() {
 
         gridView = findViewById(R.id.grid_view);
+        gridView.setNumColumns(3);
 
         tipTV = findViewById(R.id.tip_tv);
         //初始化刷新控件
@@ -67,8 +68,8 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
         String liveInfoString = preferences.getString("singerInfo", null);
 
         if (liveInfoString != null) {
-            SongSongGson songSong = Utility.handleSongResponse(liveInfoString);
-            showLiveInfo(songSong);
+            SongSingerGson dataInfo = Utility.handleSingerResponse(liveInfoString);
+            showLiveInfo(dataInfo);
         } else {
             requestLiveData(language, category);
         }
@@ -96,7 +97,7 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -104,17 +105,17 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                final SongSongGson dataInfo = Utility.handleSongResponse(responseText);
+                final SongSingerGson dataInfo = Utility.handleSingerResponse(responseText);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (dataInfo != null && "success".equals(dataInfo.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                            editor.putString("songInfo", responseText);
+                            editor.putString("singerInfo", responseText);
                             editor.apply();
                             showLiveInfo(dataInfo);
                         } else {
-                            Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -122,11 +123,11 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
         });
     }
 
-    private void showLiveInfo(SongSongGson dataList) {
+    private void showLiveInfo(SongSingerGson dataList) {
         if (dataList.data.size() != 0) {
             tipTV.setVisibility(View.GONE);
-            musicAdapter = new MusicAdapter(mActivity, R.layout.song_item, dataList.data);
-            gridView.setAdapter(musicAdapter);
+            singerAdapter = new SingerAdapter(mActivity, R.layout.singer_item, dataList.data);
+            gridView.setAdapter(singerAdapter);
         } else {
             tipTV.setVisibility(View.VISIBLE);
         }

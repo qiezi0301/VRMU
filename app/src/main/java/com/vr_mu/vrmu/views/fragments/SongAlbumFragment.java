@@ -64,10 +64,10 @@ public class SongAlbumFragment extends BaseFragment implements PullToRefreshView
 
         //读取本地是否有缓存文件
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String liveInfoString = preferences.getString("albumInfo", null);
+        String preInfoString = preferences.getString("albumInfo", null);
 
-        if (liveInfoString != null) {
-            SongAlbumGson songAlbum = Utility.handleAlbumResponse(liveInfoString);
+        if (preInfoString != null) {
+            SongAlbumGson songAlbum = Utility.handleAlbumResponse(preInfoString);
             showLiveInfo(songAlbum);
         } else {
             requestLiveData(language, category);
@@ -95,7 +95,7 @@ public class SongAlbumFragment extends BaseFragment implements PullToRefreshView
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -113,7 +113,7 @@ public class SongAlbumFragment extends BaseFragment implements PullToRefreshView
                             editor.apply();
                             showLiveInfo(dataInfo);
                         } else {
-                            Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
