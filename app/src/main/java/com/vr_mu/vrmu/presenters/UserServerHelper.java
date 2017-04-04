@@ -20,6 +20,10 @@ public class UserServerHelper {
     public static final String ALBUM = ftpUrl + "Albums/getcateList?msg=";    //专辑
     public static final String HOT = ftpUrl + "Rank/getChartscate?msg=";      //热榜
 
+    public static final String TOPIC = ftpUrl + "BbsHotThreads/hotTopic";      //话题
+    public static final String ACTIVITY = ftpUrl + "BbsActivity/getList";      //活动
+    public static final String BACK = ftpUrl + "QuestionFeedback/getList?class_id=";      //反馈
+
 
 
 }

@@ -4,7 +4,6 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -39,7 +38,7 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
     private ReviewAdapter reviewAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
+
 
     //用于筛选的参数
     private String type = "0";
@@ -55,7 +54,6 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
 
         listView = findViewById(R.id.list_view);
         listView.setDividerHeight(0);
-        tipTV = findViewById(R.id.tip_tv);
 
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
@@ -126,13 +124,10 @@ public class LiveReviewFragment extends BaseFragment implements PullToRefreshVie
     }
 
     private void showLiveInfo(LiveReviewGson liveReview) {
-        if (liveReview.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            reviewAdapter = new ReviewAdapter(mActivity, R.layout.video_item, liveReview.data);
-            listView.setAdapter(reviewAdapter);
-        } else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView);
+        reviewAdapter = new ReviewAdapter(mActivity, R.layout.item_video, liveReview.data);
+        listView.setAdapter(reviewAdapter);
     }
 
     @Override

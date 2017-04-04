@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
 
         homeLiveLayout.removeAllViews();
         for (HomeGson.DataBean.LiveRoomBean liveRoom : homeData.data.LiveRoom) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.live_item, homeLiveLayout, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_live, homeLiveLayout, false);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         homevideolayout.removeAllViews();
         for (HomeGson.DataBean.VideoBean video : homeData.data.Video) {
 
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.video_item, homevideolayout, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_video, homevideolayout, false);
             ImageView img123 = (ImageView) view.findViewById(img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
@@ -173,13 +173,13 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         }
 
         homeSongGrid = (GridView) view.findViewById(R.id.home_song_grid);
-        SongAdapter songAdapter = new SongAdapter(getActivity(), R.layout.song_item, homeData.data.SongMenu);
+        SongAdapter songAdapter = new SongAdapter(getActivity(), R.layout.item_song, homeData.data.SongMenu);
         homeSongGrid.setAdapter(songAdapter);
 
 
         homeMvLayout.removeAllViews();
         for (HomeGson.DataBean.MvBean mv : homeData.data.Mv) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.mv_item, homeMvLayout, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_mv, homeMvLayout, false);
             ImageView img123 = (ImageView) view.findViewById(img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         }
 
         //新建适配器
-        SimpleAdapter sim_adapter = new SimpleAdapter(getActivity(), data_list, R.layout.nav_item, new String[]{"image"}, new int[]{R.id.nav_iv});
+        SimpleAdapter sim_adapter = new SimpleAdapter(getActivity(), data_list, R.layout.item_nav, new String[]{"image"}, new int[]{R.id.nav_iv});
         gridView.setAdapter(sim_adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

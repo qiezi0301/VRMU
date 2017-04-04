@@ -1,6 +1,7 @@
 package com.vr_mu.vrmu.utils;
 
 import com.google.gson.Gson;
+import com.vr_mu.vrmu.gson.FindTopicGson;
 import com.vr_mu.vrmu.gson.HomeGson;
 import com.vr_mu.vrmu.gson.LiveLiveGson;
 import com.vr_mu.vrmu.gson.LiveReviewGson;
@@ -151,6 +152,20 @@ public class Utility {
     public static SongHotGson handleHotResponse(String response) {
         try {
             return new Gson().fromJson(response, SongHotGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成FindTopic实体类
+     * @param response
+     * @return
+     */
+    public static FindTopicGson handTopicResponse(String response) {
+        try {
+            return new Gson().fromJson(response, FindTopicGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

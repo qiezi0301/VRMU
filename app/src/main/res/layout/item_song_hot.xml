@@ -2,46 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" >
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:orientation="horizontal"
         android:paddingBottom="10dp"
         android:paddingRight="10dp"
-        android:orientation="horizontal" >
+        android:paddingTop="10dp">
 
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="80dp" >
+            android:layout_height="80dp">
 
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/watch_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="#8000"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                android:drawableLeft="@drawable/ic_headset"
+                android:drawablePadding="2dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_headset" />
-
-                <TextView
-                    android:id="@+id/watch_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="10sp" />
-            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -50,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical" >
+            android:orientation="vertical">
         </LinearLayout>
     </LinearLayout>
 

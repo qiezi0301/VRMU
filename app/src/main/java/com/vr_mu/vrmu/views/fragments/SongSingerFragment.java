@@ -4,7 +4,6 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.GridView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,14 +29,14 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongSingerFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
+public class SongSingerFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
     private PullToRefreshView mPullToRefreshView;
 
     private GridView gridView;
     private SingerAdapter singerAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
+
 
     private String language = "0";
     private String category = "0";
@@ -54,7 +53,6 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
         gridView = findViewById(R.id.grid_view);
         gridView.setNumColumns(3);
 
-        tipTV = findViewById(R.id.tip_tv);
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -124,13 +122,11 @@ public class SongSingerFragment extends BaseFragment implements PullToRefreshVie
     }
 
     private void showLiveInfo(SongSingerGson dataList) {
-        if (dataList.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            singerAdapter = new SingerAdapter(mActivity, R.layout.singer_item, dataList.data);
-            gridView.setAdapter(singerAdapter);
-        } else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        gridView.setEmptyView(emptyView); //没有数据时候显示
+        singerAdapter = new SingerAdapter(mActivity, R.layout.item_singer, dataList.data);
+        gridView.setAdapter(singerAdapter);
+
     }
 
     @Override

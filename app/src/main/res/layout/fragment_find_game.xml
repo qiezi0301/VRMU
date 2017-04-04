@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="10dp"
-        android:drawableTop="@drawable/service_icon"
+        android:drawableTop="@drawable/game_icon"
         android:gravity="center"
         android:shadowColor="@color/colorWhite"
         android:text="正在设计开发中，即将上线！\n敬请期待..."

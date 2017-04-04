@@ -84,7 +84,7 @@ public class HomeActivity extends BaseActivity {
      * 给每个Tab按钮设置图标和文字
      */
     private View getTabItemView(int index) {
-        View tabItemView = mLayoutInflater.inflate(R.layout.tab_item_view, null);
+        View tabItemView = mLayoutInflater.inflate(R.layout.item_tab_view, null);
 
         ImageView imageView = (ImageView) tabItemView.findViewById(R.id.tab_icon);
         TextView textView = (TextView) tabItemView.findViewById(R.id.tab_tv);

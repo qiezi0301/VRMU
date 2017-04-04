@@ -28,11 +28,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**直播综艺
+/**
+ * 直播综艺
  * A simple {@link Fragment} subclass.
  */
-public class LiveVarietyFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
-
+public class LiveVarietyFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
 
 
     private PullToRefreshView mPullToRefreshView;
@@ -42,7 +42,7 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
     private VarietyAdapter varietyAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
+
 
     @Override
     protected int setLayoutResouceId() {
@@ -55,7 +55,7 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
         listView = findViewById(R.id.list_view);
         listView.setDividerHeight(0);
         listView.addHeaderView(bannerview);
-        tipTV = findViewById(R.id.tip_tv);
+
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -124,13 +124,11 @@ public class LiveVarietyFragment extends BaseFragment implements PullToRefreshVi
     }
 
     private void showLiveInfo(LiveVarietyGson liveVariety) {
-        if (liveVariety.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            varietyAdapter = new VarietyAdapter(mActivity, R.layout.video_item, liveVariety.data);
-            listView.setAdapter(varietyAdapter);
-        } else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView); //没有数据时候显示
+        varietyAdapter = new VarietyAdapter(mActivity, R.layout.item_video, liveVariety.data);
+        listView.setAdapter(varietyAdapter);
+
     }
 
     @Override

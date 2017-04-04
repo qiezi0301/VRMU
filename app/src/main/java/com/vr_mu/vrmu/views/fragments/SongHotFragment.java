@@ -4,7 +4,6 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,15 +29,16 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongHotFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
+public class SongHotFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
     private PullToRefreshView mPullToRefreshView;
 
     private ListView listView;
     private HotAdapter hotAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
 
+
+    private static final String PAGEDATA = "hotInfo";
 
     @Override
     protected int setLayoutResouceId() {
@@ -51,7 +51,7 @@ public class SongHotFragment extends BaseFragment implements PullToRefreshView.O
 
         listView = findViewById(R.id.list_view);
         listView.setDividerHeight(1);
-        tipTV = findViewById(R.id.tip_tv);
+
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -65,7 +65,7 @@ public class SongHotFragment extends BaseFragment implements PullToRefreshView.O
 
         //读取本地是否有缓存文件
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String liveInfoString = preferences.getString("hotInfo", null);
+        String liveInfoString = preferences.getString(PAGEDATA, null);
 
         if (liveInfoString != null) {
             SongHotGson dataInfo = Utility.handleHotResponse(liveInfoString);
@@ -109,7 +109,7 @@ public class SongHotFragment extends BaseFragment implements PullToRefreshView.O
                     public void run() {
                         if (dataInfo != null && "success".equals(dataInfo.msg)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                            editor.putString("hotInfo", responseText);
+                            editor.putString(PAGEDATA, responseText);
                             editor.apply();
                             showLiveInfo(dataInfo);
                         } else {
@@ -122,13 +122,11 @@ public class SongHotFragment extends BaseFragment implements PullToRefreshView.O
     }
 
     private void showLiveInfo(SongHotGson dataList) {
-        if (dataList.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            hotAdapter = new HotAdapter(mActivity, R.layout.item_song_hot, dataList.data);
-            listView.setAdapter(hotAdapter);
-        } else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView); //没有数据时候显示
+        hotAdapter = new HotAdapter(mActivity, R.layout.item_song_hot, dataList.data);
+        listView.setAdapter(hotAdapter);
+
     }
 
     @Override

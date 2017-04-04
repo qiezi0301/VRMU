@@ -4,7 +4,6 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,7 +29,7 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongMvFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
+public class SongMvFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
     private PullToRefreshView mPullToRefreshView;
 
 
@@ -38,7 +37,7 @@ public class SongMvFragment extends BaseFragment implements PullToRefreshView.On
     private MvAdapter mvAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
+
     //用于筛选的参数
     private String language = "0";
     private String cate = "0";
@@ -53,7 +52,7 @@ public class SongMvFragment extends BaseFragment implements PullToRefreshView.On
 
         listView = findViewById(R.id.list_view);
         listView.setDividerHeight(0);
-        tipTV = findViewById(R.id.tip_tv);
+
 
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
@@ -129,13 +128,11 @@ public class SongMvFragment extends BaseFragment implements PullToRefreshView.On
     }
 
     private void showLiveInfo(SongMvGson songMv) {
-        if (songMv.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            mvAdapter = new MvAdapter(mActivity, R.layout.mv_item, songMv.data);
-            listView.setAdapter(mvAdapter);
-        } else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView); //没有数据时候显示
+        mvAdapter = new MvAdapter(mActivity, R.layout.item_mv, songMv.data);
+        listView.setAdapter(mvAdapter);
+
     }
 
     @Override

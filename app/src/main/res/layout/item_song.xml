@@ -41,28 +41,17 @@
             android:textSize="10sp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/watch_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
         android:background="#5000"
-        android:padding="2dp">
+        android:drawableLeft="@drawable/home_eye_ico"
+        android:padding="2dp"
+        android:text="160万"
+        android:textColor="@color/colorWhite"
+        android:textSize="10sp"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="2dp"
-            android:src="@drawable/home_eye_ico"/>
-
-        <TextView
-            android:id="@+id/watch_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="160万"
-            android:textColor="@color/colorWhite"
-            android:textSize="10sp"/>
-
-    </LinearLayout>
 </com.vr_mu.vrmu.views.SquareLayout>

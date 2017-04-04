@@ -28,10 +28,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**直播列表页
+/**
+ * 直播列表页
  * A simple {@link Fragment} subclass.
  */
-public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener{
+public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
 
 
     private PullToRefreshView mPullToRefreshView;
@@ -41,7 +42,7 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
     private LiveAdapter liveAdapter;
 
     private ScrollView sv;
-    private TextView tipTV;
+
 
     @Override
     protected int setLayoutResouceId() {
@@ -54,7 +55,7 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         listView = findViewById(R.id.list_view);
         listView.setDividerHeight(0);
         listView.addHeaderView(bannerview);
-        tipTV = findViewById(R.id.tip_tv);
+
         //初始化刷新控件
         mPullToRefreshView = (PullToRefreshView) mRootView.findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
@@ -115,7 +116,6 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
             }
@@ -123,13 +123,11 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
     }
 
     private void showLiveInfo(LiveLiveGson liveLive) {
-        if (liveLive.data.size() != 0) {
-            tipTV.setVisibility(View.GONE);
-            liveAdapter = new LiveAdapter(mActivity, R.layout.live_item, liveLive.data);
-            listView.setAdapter(liveAdapter);
-        }else {
-            tipTV.setVisibility(View.VISIBLE);
-        }
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView); //没有数据时候显示
+        liveAdapter = new LiveAdapter(mActivity, R.layout.item_live, liveLive.data);
+        listView.setAdapter(liveAdapter);
+
     }
 
     @Override
