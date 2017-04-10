@@ -1,9 +1,13 @@
 package com.vr_mu.vrmu.views.fragments;
 
 
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -32,6 +36,9 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
     private static final String PAGEDATA = "BackInfo";
     private ListView listView;
     private String classId = "0";
+    private FrameLayout menuLy;
+    private TextView titleTv;
+    private TextView cateTv;
 
     @Override
     protected int setLayoutResouceId() {
@@ -113,6 +120,63 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
         BackAdapter backAdapter = new BackAdapter(mActivity, R.layout.item_find_back, dataList.data.feedbackList);
         listView.setAdapter(backAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cateTv = (TextView) view.findViewById(R.id.cate_tv);
+                titleTv = (TextView) view.findViewById(R.id.title_tv);
+
+                menuLy = (FrameLayout) view.findViewById(R.id.menu_layout);
+                menuLy.measure(0, 0);
+                final int height = menuLy.getMeasuredHeight();
+
+                if (menuLy.getVisibility() == View.GONE) {
+                    show(menuLy, height);
+                    cateTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    titleTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                } else {
+                    dismiss(menuLy, height);
+                    cateTv.setTextColor(getResources().getColor(R.color.colorGrey));
+                    titleTv.setTextColor(getResources().getColor(R.color.colorGrey));
+                }
+            }
+        });
+
+    }
+
+    //显示动画
+    public void show(final View v, int height) {
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator animator = ValueAnimator.ofInt(0, height);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) animation.getAnimatedValue();
+                v.getLayoutParams().height = value;
+                v.setLayoutParams(v.getLayoutParams());
+            }
+        });
+        animator.start();
+    }
+
+    //隐藏的动画
+    public void dismiss(final View v, int height) {
+
+        ValueAnimator animator = ValueAnimator.ofInt(height, 0);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) animation.getAnimatedValue();
+                if (value == 0) {
+                    v.setVisibility(View.GONE);
+                }
+                v.getLayoutParams().height = value;
+                v.setLayoutParams(v.getLayoutParams());
+            }
+        });
+        animator.start();
     }
 
     @Override

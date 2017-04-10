@@ -58,6 +58,7 @@ public class BackAdapter extends ArrayAdapter<FindBackGson.DataBean.FeedbackList
             viewHolder.cateTv = (TextView) view.findViewById(R.id.cate_tv);
             viewHolder.avatarImg = (CircleImageView) view.findViewById(R.id.avatar_img);
             viewHolder.titleTv = (TextView) view.findViewById(R.id.title_tv);
+            viewHolder.contentTv = (TextView) view.findViewById(R.id.content_tv);
             view.setTag(viewHolder);
         } else {
             view = convertView;
@@ -65,7 +66,8 @@ public class BackAdapter extends ArrayAdapter<FindBackGson.DataBean.FeedbackList
         }
         if (item != null) {
             viewHolder.cateTv.setText(item.className);
-            viewHolder.titleTv.setText(item.question);
+            viewHolder.titleTv.setText("问："+item.question);
+            viewHolder.contentTv.setText("答："+item.content);
             Glide.with(mContext).load(item.userIcon).into(viewHolder.avatarImg);
         }
         return view;
@@ -75,5 +77,6 @@ public class BackAdapter extends ArrayAdapter<FindBackGson.DataBean.FeedbackList
         TextView cateTv;
         CircleImageView avatarImg;
         TextView titleTv;
+        TextView contentTv;
     }
 }
