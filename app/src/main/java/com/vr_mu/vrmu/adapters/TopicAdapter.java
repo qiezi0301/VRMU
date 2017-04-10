@@ -1,6 +1,7 @@
 package com.vr_mu.vrmu.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,9 @@ public class TopicAdapter extends ArrayAdapter<FindTopicGson.DataBean.TopicBean>
         return dataList.get(position);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         FindTopicGson.DataBean.TopicBean item = getItem(position);
         View view;
         ViewHolder viewHolder;
@@ -63,21 +65,29 @@ public class TopicAdapter extends ArrayAdapter<FindTopicGson.DataBean.TopicBean>
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        Glide.with(mContext).load(item.userImg).into(viewHolder.avatarImg);
-        viewHolder.titleTv.setText(item.title);
-        Log.d("getView", "getView: " + Long.valueOf(item.pubTime));
-        viewHolder.nameDateTv.setText(item.petName + "/发布于：" + DateUtils.getStrTime(item.pubTime));
-        viewHolder.descTv.setText(item.content);
-        viewHolder.replyTv.setText(item.comment + "");
-        viewHolder.watchTv.setText(item.view + "");
 
-        viewHolder.imageLay.removeAllViews();
-        for (int i = 0; i < item.topicImg.size(); i++) {
-            ImageView image = new ImageView(mContext);
-            image.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
-            image.setScaleType(ImageView.ScaleType.CENTER);
-            Glide.with(mContext).load(item.topicImg.get(i)).into(image);
-            viewHolder.imageLay.addView(image);
+        if (item != null) {
+            Glide.with(mContext).load(item.userImg).into(viewHolder.avatarImg);
+            viewHolder.titleTv.setText(item.title);
+            Log.d("getView", "getView: " + Long.valueOf(item.pubTime));
+            viewHolder.nameDateTv.setText(item.petName + " / 发布于：" + DateUtils.getStrTime(item.pubTime));
+            viewHolder.descTv.setText(item.content);
+            viewHolder.replyTv.setText(item.comment);
+            viewHolder.watchTv.setText(item.view);
+
+            if (item.topicImg.size() != 0) {
+                viewHolder.imageLay.setVisibility(View.VISIBLE);
+                viewHolder.imageLay.removeAllViews();
+                for (int i = 0; i < item.topicImg.size(); i++) {
+                    ImageView image = new ImageView(mContext);
+                    image.setLayoutParams(new ViewGroup.LayoutParams(250,250));
+                    image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    Glide.with(mContext).load(item.topicImg.get(i)).into(image);
+                    viewHolder.imageLay.addView(image);
+                }
+            } else {
+                viewHolder.imageLay.setVisibility(View.GONE);
+            }
         }
         return view;
     }
@@ -90,7 +100,5 @@ public class TopicAdapter extends ArrayAdapter<FindTopicGson.DataBean.TopicBean>
         LinearLayout imageLay;
         TextView replyTv;
         TextView watchTv;
-
-
     }
 }

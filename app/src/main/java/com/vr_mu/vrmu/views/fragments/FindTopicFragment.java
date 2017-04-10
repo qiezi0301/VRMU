@@ -4,6 +4,9 @@ package com.vr_mu.vrmu.views.fragments;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,42 +26,30 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**话题
+/**
+ * 话题
  * A simple {@link Fragment} subclass.
  */
 public class FindTopicFragment extends BaseFragment implements PullToRefreshView.OnHeaderRefreshListener {
-    private PullToRefreshView mPullToRefreshView;
-
-    private ListView listView;
-    private TopicAdapter topicAdapter;
-
-    private ScrollView sv;
-
     //缓存数据保存常量
     private static final String PAGEDATA = "TopicInfo";
-
-    @Override
-    protected int setLayoutResouceId() {
-        //TODO 忘记修改会导致空指针错误
-        return R.layout.fragment_list;
-    }
+    private PullToRefreshView mPullToRefreshView;
+    private ListView listView;
 
     @Override
     protected void initView() {
-
+        View headerView = LayoutInflater.from(mActivity).inflate(R.layout.lay_topic_header, null);
         listView = findViewById(R.id.list_view);
-        listView.setDividerHeight(1);
+        listView.addHeaderView(headerView);
+        listView.setDividerHeight(0);
 
         //初始化刷新控件
         mPullToRefreshView = findViewById(R.id.swipe_refresh);
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
 
         //设置ScrollView默认定位顶部
-        sv = findViewById(R.id.over_scroll);
+        ScrollView sv = findViewById(R.id.over_scroll);
         sv.smoothScrollTo(0, 0);
-        //设置控件两边距离
-        int spacing10 = getResources().getDimensionPixelSize(R.dimen.spacing10);
-        sv.setPadding(spacing10, 0, 0, 0);
 
         //读取本地是否有缓存文件
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -73,6 +64,34 @@ public class FindTopicFragment extends BaseFragment implements PullToRefreshView
 
         //设置下拉监听器
         mPullToRefreshView.setOnHeaderRefreshListener(FindTopicFragment.this);
+    }
+
+    @Override
+    protected int setLayoutResouceId() {
+        //TODO 忘记修改会导致空指针错误
+        return R.layout.fragment_list;
+    }
+
+    private void showLiveInfo(FindTopicGson dataList) {
+
+        //每日精选
+        TextView emptyView = findViewById(R.id.tip_tv);
+        listView.setEmptyView(emptyView); //没有数据时候显示
+        TopicAdapter topicAdapter = new TopicAdapter(mActivity, R.layout.item_topic, dataList.data.topic);
+        listView.setAdapter(topicAdapter);
+
+        //添加最新公告
+        LinearLayout noticeLayout = findViewById(R.id.notice_lay);
+        noticeLayout.removeAllViews();
+        for (FindTopicGson.DataBean.NoticeBean noticeBean : dataList.data.notice) {
+
+            View view = LayoutInflater.from(mActivity).inflate(R.layout.item_text_view, noticeLayout, false);
+            TextView noticeView = (TextView) view.findViewById(R.id.notice_tv);
+
+            noticeView.setText(noticeBean.name);
+            noticeLayout.addView(view);
+
+        }
     }
 
     private void requestData() {
@@ -111,13 +130,6 @@ public class FindTopicFragment extends BaseFragment implements PullToRefreshView
         });
     }
 
-    private void showLiveInfo(FindTopicGson dataList) {
-        TextView emptyView = findViewById(R.id.tip_tv);
-        listView.setEmptyView(emptyView); //没有数据时候显示
-        topicAdapter = new TopicAdapter(mActivity, R.layout.item_topic, dataList.data.topic);
-        listView.setAdapter(topicAdapter);
-    }
-
     @Override
     public void onHeaderRefresh(PullToRefreshView view) {
         mPullToRefreshView.postDelayed(new Runnable() {
@@ -128,5 +140,4 @@ public class FindTopicFragment extends BaseFragment implements PullToRefreshView
             }
         }, 1000);
     }
-
 }

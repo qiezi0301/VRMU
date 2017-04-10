@@ -40,8 +40,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.vr_mu.vrmu.R.id.img;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -146,7 +144,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
-            ImageView img123 = (ImageView) view.findViewById(img);
+            ImageView img123 = (ImageView) view.findViewById(R.id.img);
             CircleImageView avatarimg = (CircleImageView) view.findViewById(R.id.avatar_img);
 
             watchtv.setText(liveRoom.viewers);
@@ -160,7 +158,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         for (HomeGson.DataBean.VideoBean video : homeData.data.Video) {
 
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_video, homevideolayout, false);
-            ImageView img123 = (ImageView) view.findViewById(img);
+            ImageView img123 = (ImageView) view.findViewById(R.id.img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);
@@ -180,7 +178,7 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
         homeMvLayout.removeAllViews();
         for (HomeGson.DataBean.MvBean mv : homeData.data.Mv) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_mv, homeMvLayout, false);
-            ImageView img123 = (ImageView) view.findViewById(img);
+            ImageView img123 = (ImageView) view.findViewById(R.id.img);
             TextView nametv = (TextView) view.findViewById(R.id.name_tv);
             TextView causetv = (TextView) view.findViewById(R.id.desc_tv);
             TextView watchtv = (TextView) view.findViewById(R.id.watch_tv);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.vr_mu.vrmu.views.SquareLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -25,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:layout_marginLeft="8dp"
-            android:text="Tao_FenBoy"
+            android:layout_gravity="center"
+            tools:text="Tao_FenBoy"
             android:textColor="@color/colorWhite"
             android:textSize="10sp"/>
     </LinearLayout>
