@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/cate_tv"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        tools:text="MV"/>
+
+    <View
+        android:layout_width="20dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/colorPrimary"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/nav_avatar"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/down_arrow"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textSize="12sp"
+        tools:text="蚊：绝对是客服即可到圣诞节疯狂涉及到看风景奥斯卡打飞机阿克苏"/>
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.vr_mu.vrmu.utils;
 
 import com.google.gson.Gson;
+import com.vr_mu.vrmu.gson.FindActivityGson;
+import com.vr_mu.vrmu.gson.FindBackGson;
 import com.vr_mu.vrmu.gson.FindTopicGson;
 import com.vr_mu.vrmu.gson.HomeGson;
 import com.vr_mu.vrmu.gson.LiveLiveGson;
@@ -166,6 +168,34 @@ public class Utility {
     public static FindTopicGson handTopicResponse(String response) {
         try {
             return new Gson().fromJson(response, FindTopicGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成活动实体类
+     * @param response
+     * @return
+     */
+    public static FindActivityGson handActivityResponse(String response) {
+        try {
+            return new Gson().fromJson(response, FindActivityGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成反馈的实体类
+     * @param response
+     * @return
+     */
+    public static FindBackGson handBackResponse(String response) {
+        try {
+            return new Gson().fromJson(response, FindBackGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

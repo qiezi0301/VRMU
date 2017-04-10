@@ -94,6 +94,9 @@ public class FindTopicFragment extends BaseFragment implements PullToRefreshView
         }
     }
 
+    /**
+     * 通过接口请求数据
+     */
     private void requestData() {
 
         String homeUrl = UserServerHelper.TOPIC;

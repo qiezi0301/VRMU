@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp">
@@ -34,7 +35,9 @@
                 android:id="@+id/name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tao_FenBoy"
+                android:ellipsize="end"
+                android:lines="1"
+                tools:text="Tao_FenBoy"
                 android:textColor="@color/colorWhite"
                 android:textSize="13.5sp"/>
 
@@ -42,8 +45,9 @@
                 android:id="@+id/desc_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:lines="1"
-                android:text="明细艺人"
+                tools:text="明细艺人"
                 android:textColor="@color/colorWhite"
                 android:textSize="10sp"/>
 
@@ -57,7 +61,7 @@
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/home_eye_ico"
             android:paddingRight="5dp"
-            android:text="1600000万"
+            tools:text="1600000万"
             android:textColor="@color/colorWhite"
             android:textSize="10sp"/>
     </LinearLayout>

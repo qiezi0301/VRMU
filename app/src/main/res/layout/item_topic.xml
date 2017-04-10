@@ -30,7 +30,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/colorBlack"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 tools:text="那些听不腻的古风"/>
 
             <TextView
