@@ -1,10 +1,9 @@
 package com.vr_mu.vrmu.utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/**日期格式化工具类
  * Created by zhangjialiang on 17/4/4.
  */
 
@@ -30,15 +29,8 @@ public class DateUtils {
     }
 
     /* 将字符串转为时间戳 */
-    public static long getStringToDate(String time) {
-        sf = new SimpleDateFormat("yyyy年MM月dd日");
-        Date date = new Date();
-        try {
-            date = sf.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date.getTime();
+    public static String getStringToDate(String time) {
+        return new SimpleDateFormat("yyyy年MM月dd日").format(new Date(Long.valueOf(time) * 1000L));
     }
 
 
@@ -74,10 +66,4 @@ public class DateUtils {
         return sdf.format(new Date(Long.valueOf(seconds + "000")));
     }
 
-
-    //	DateUtils.getCurrentDate(); //获取系统当前时间
-    //	　　
-    //	DateUtils.getDateToString(时间戳); //时间戳转为时间格式
-    //	　　
-    //	DateUtils.getStringToDate("时间格式");//时间格式转为时间戳
 }

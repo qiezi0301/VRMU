@@ -3,8 +3,10 @@ package com.vr_mu.vrmu.views.fragments;
 
 import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -76,7 +78,7 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
 
     /**
      * 通过接口请求
-     * @param classId
+     * @param classId 分类id
      */
     private void requestData(String classId) {
         String homeUrl = UserServerHelper.BACK + classId;
@@ -107,7 +109,6 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
             }
@@ -132,16 +133,24 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
 
                 if (menuLy.getVisibility() == View.GONE) {
                     show(menuLy, height);
-                    cateTv.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    titleTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    cateTv.setTextColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+                    titleTv.setTextColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+
+                    Drawable nav_up=ContextCompat.getDrawable(mActivity,R.drawable.up_arrow);
+                    nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
+                    titleTv.setCompoundDrawables(null, null, nav_up, null);
+
                 } else {
                     dismiss(menuLy, height);
-                    cateTv.setTextColor(getResources().getColor(R.color.colorGrey));
-                    titleTv.setTextColor(getResources().getColor(R.color.colorGrey));
+                    cateTv.setTextColor(ContextCompat.getColor(mActivity, R.color.colorGrey));
+                    titleTv.setTextColor(ContextCompat.getColor(mActivity, R.color.colorGrey));
+
+                    Drawable nav_up=ContextCompat.getDrawable(mActivity,R.drawable.down_arrow);
+                    nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
+                    titleTv.setCompoundDrawables(null, null, nav_up, null);
                 }
             }
         });
-
     }
 
     //显示动画
@@ -152,8 +161,7 @@ public class FindBackFragment extends BaseFragment implements PullToRefreshView.
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (Integer) animation.getAnimatedValue();
-                v.getLayoutParams().height = value;
+                v.getLayoutParams().height = (int) (Integer) animation.getAnimatedValue();
                 v.setLayoutParams(v.getLayoutParams());
             }
         });

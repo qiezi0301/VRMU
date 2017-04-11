@@ -19,11 +19,12 @@
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/colorGrey"
             android:textSize="12sp"
             tools:text="MV"/>
 
         <View
-            android:layout_width="20dp"
+            android:layout_width="10dp"
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:background="@color/colorPrimary"/>
@@ -56,6 +57,7 @@
             android:drawableRight="@drawable/down_arrow"
             android:ellipsize="end"
             android:lines="1"
+            android:textColor="@color/colorGrey"
             android:textSize="12sp"
             tools:text="蚊：绝对是客服即可到圣诞节疯狂涉及到看风景奥斯卡打飞机阿克苏"/>
     </LinearLayout>
@@ -70,19 +72,18 @@
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:layout_marginLeft="75dp"
+            android:layout_marginLeft="65dp"
             android:background="@color/colorPrimary"/>
 
         <TextView
-            android:textColor="@color/colorBlack"
             android:id="@+id/content_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginLeft="90dp"
             android:lineSpacingExtra="3dp"
-            android:layout_marginLeft="100dp"
+            android:textColor="@color/colorBlack"
             android:textSize="12sp"
             tools:text="蚊：绝对是客服即可到圣诞节疯狂涉及到看风景奥斯卡打飞机阿克苏"/>
     </FrameLayout>
-
 
 </FrameLayout>

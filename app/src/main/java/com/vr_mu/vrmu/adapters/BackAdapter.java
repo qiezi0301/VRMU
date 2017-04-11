@@ -66,8 +66,8 @@ public class BackAdapter extends ArrayAdapter<FindBackGson.DataBean.FeedbackList
         }
         if (item != null) {
             viewHolder.cateTv.setText(item.className);
-            viewHolder.titleTv.setText("问："+item.question);
-            viewHolder.contentTv.setText("答："+item.content);
+            viewHolder.titleTv.setText("问：" +item.question);
+            viewHolder.contentTv.setText("答：" +item.content);
             Glide.with(mContext).load(item.userIcon).into(viewHolder.avatarImg);
         }
         return view;

@@ -33,9 +33,6 @@ public class SongSongFragment extends BaseFragment implements PullToRefreshView.
     private PullToRefreshView mPullToRefreshView;
 
     private GridView gridView;
-    private MusicAdapter musicAdapter;
-
-    private ScrollView sv;
 
     private String language = "0";
     private String category = "0";
@@ -56,7 +53,7 @@ public class SongSongFragment extends BaseFragment implements PullToRefreshView.
         mPullToRefreshView.setEnablePullLoadMoreDataStatus(false);
 
         //设置ScrollView默认定位顶部
-        sv = findViewById(R.id.over_scroll);
+        ScrollView sv = findViewById(R.id.over_scroll);
         sv.smoothScrollTo(0, 0);
 
         //读取本地是否有缓存文件
@@ -121,7 +118,7 @@ public class SongSongFragment extends BaseFragment implements PullToRefreshView.
     private void showLiveInfo(SongSongGson dataList) {
         TextView emptyView = findViewById(R.id.tip_tv);
         gridView.setEmptyView(emptyView); //没有数据时候显示
-        musicAdapter = new MusicAdapter(mActivity, R.layout.item_song, dataList.data);
+        MusicAdapter musicAdapter = new MusicAdapter(mActivity, R.layout.item_song, dataList.data);
         gridView.setAdapter(musicAdapter);
 
     }

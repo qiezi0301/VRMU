@@ -196,14 +196,14 @@ public class HomeFragment extends Fragment implements PullToRefreshView.OnHeader
     private void setMainIcons() {
 
         GridView gridView = (GridView) view.findViewById(R.id.fourbtn_grid);/*使用Gview控件*/
-        List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();//新建List
+        List<Map<String, Object>> data_list = new ArrayList<>();//新建List
 
         int[] icon = {R.drawable.home_live_btn, R.drawable.home_music_btn, R.drawable.home_service_btn, R.drawable.home_find_btn,};//获取数据
 
         /*cion和iconName的长度是相同的，这里任选其一都可以*/
-        for (int i = 0; i < icon.length; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("image", icon[i]);
+        for (int anIcon : icon) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", anIcon);
             data_list.add(map);
         }
 
