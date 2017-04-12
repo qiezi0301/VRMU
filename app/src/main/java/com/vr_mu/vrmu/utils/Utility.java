@@ -1,6 +1,7 @@
 package com.vr_mu.vrmu.utils;
 
 import com.google.gson.Gson;
+import com.vr_mu.vrmu.gson.BannerGson;
 import com.vr_mu.vrmu.gson.FindActivityGson;
 import com.vr_mu.vrmu.gson.FindBackGson;
 import com.vr_mu.vrmu.gson.FindTopicGson;
@@ -42,6 +43,20 @@ public class Utility {
     public static LiveLiveGson handleLiveResponse(String response) {
         try {
             return new Gson().fromJson(response, LiveLiveGson.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Live实体类
+     * @param response
+     * @return
+     */
+    public static BannerGson handleBannerResponse(String response) {
+        try {
+            return new Gson().fromJson(response, BannerGson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

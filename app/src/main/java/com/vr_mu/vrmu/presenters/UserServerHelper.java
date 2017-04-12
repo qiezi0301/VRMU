@@ -8,6 +8,7 @@ public class UserServerHelper {
 
     private static final String ftpUrl = "http://api.vr-mu.com/Api/";
 
+    public static final String BANNER = ftpUrl + "Roombanner/banner";                         //首页
 
     public static final String HOME = ftpUrl + "Home/data?msg=";                         //首页
     public static final String LIVE = ftpUrl + "RoomLive/getList?msg=";                  //直播／综艺
