@@ -4,47 +4,54 @@
                 android:id="@+id/pull_to_refresh_header"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
+                android:background="@android:color/white">
 
     <ProgressBar
         android:id="@+id/pull_to_refresh_progress"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="50dp"
-        android:visibility="gone"/>
-
-    <ImageView
-
-        android:id="@+id/pull_to_refresh_image"
+        style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/pull_to_refresh_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
         android:src="@drawable/ic_pulltorefresh_arrow"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        tools:ignore="ContentDescription"/>
 
-    <TextView
-        android:id="@+id/pull_to_refresh_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="下拉刷新"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorGrey"
-        android:textSize="12sp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/pull_to_refresh_updated_at"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pull_to_refresh_text"
-        android:gravity="center"
-        android:textColor="@color/Greyaaa"
-        android:textSize="12sp"
-        tools:text="上次刷新时间"/>
+        <TextView
+            android:id="@+id/pull_to_refresh_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="下拉刷新"
+            android:textSize="12sp"/>
 
+        <TextView
+            android:id="@+id/pull_to_refresh_updated_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:paddingBottom="10dp"
+            android:textColor="#aaaaaa"
+            android:textSize="10sp"/>
+    </LinearLayout>
 </RelativeLayout>

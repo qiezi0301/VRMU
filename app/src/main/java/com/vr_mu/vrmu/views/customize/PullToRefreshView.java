@@ -252,8 +252,7 @@ public class PullToRefreshView extends LinearLayout {
                 if (!enablePullLoadMoreDataStatus) {
                     return false;
                 }
-                View lastChild = mAdapterView.getChildAt(mAdapterView
-                        .getChildCount() - 1);
+                View lastChild = mAdapterView.getChildAt(mAdapterView.getChildCount() - 1);
                 if (lastChild == null) {
                     // 如果mAdapterView中没有数据,不拦截
                     return false;
@@ -403,19 +402,15 @@ public class PullToRefreshView extends LinearLayout {
 
         // 当header view的topMargin>=0时，说明已经完全显示出来了,修改header view 的提示状态
         if (newTopMargin >= 0 && mHeaderState != RELEASE_TO_REFRESH) {
-
             mHeaderTextView.setText("松开后刷新");
-            mHeaderUpdateTextView.setVisibility(View.VISIBLE);
             mHeaderImageView.clearAnimation();
             mHeaderImageView.startAnimation(mFlipAnimation);
             mHeaderState = RELEASE_TO_REFRESH;
 
-        } else if (newTopMargin < 0 && newTopMargin > -mHeaderViewHeight) { // 拖动时没有释放
+        } else if (newTopMargin < 0 && newTopMargin > -mHeaderViewHeight) {// 拖动时没有释放
 
             mHeaderImageView.clearAnimation();
             mHeaderImageView.startAnimation(mFlipAnimation);
-
-            mHeaderUpdateTextView.setVisibility(View.GONE);
             // mHeaderImageView.
             mHeaderTextView.setText("下拉刷新");
             mHeaderState = PULL_TO_REFRESH;
