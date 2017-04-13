@@ -46,12 +46,10 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("BaseFragment", "当前碎片=======:" + this + "，布局：" + mRootView);
         if (mRootView == null) {
             mRootView = inflater.inflate(setLayoutResouceId(), container, false);
             initView();
         }
-
         initData(getArguments());
         mIsPrepare = true;
         onLazyLoad();

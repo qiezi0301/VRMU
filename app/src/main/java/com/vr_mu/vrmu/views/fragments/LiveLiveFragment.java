@@ -2,6 +2,7 @@ package com.vr_mu.vrmu.views.fragments;
 
 
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -61,7 +62,8 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
     private int[] bannerImages;
 
     // 广告语
-    private String[] bannerTexts = {"因为专业 所以卓越", "坚持创新 行业领跑", "诚信 专业 双赢", "精细 和谐 大气 开放"};;
+    private String[] bannerTexts = {"因为专业 所以卓越", "坚持创新 行业领跑", "诚信 专业 双赢", "精细 和谐 大气 开放"};
+    ;
 
     // 圆圈标志位
     private int pointIndex = 0;
@@ -225,20 +227,20 @@ public class LiveLiveFragment extends BaseFragment implements PullToRefreshView.
         initAction();
 
         // 开启新线程，2秒一次更新Banner
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (!isStop) {
-//                    SystemClock.sleep(2000);
-//                    mActivity.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-//                        }
-//                    });
-//                }
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isStop) {
+                    SystemClock.sleep(2000);
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     private void showLiveInfo(LiveLiveGson liveLive) {

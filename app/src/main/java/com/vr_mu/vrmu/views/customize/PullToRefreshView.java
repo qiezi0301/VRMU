@@ -42,6 +42,9 @@ public class PullToRefreshView extends LinearLayout {
     private boolean enablePullLoadMoreDataStatus = true;
     private int mLastMotionY;
     private boolean mLock;
+
+    private float mDownX;
+    private float mDownY;
     /**
      * 头部view
      */
@@ -303,20 +306,31 @@ public class PullToRefreshView extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 // onInterceptTouchEvent已经记录
                 // mLastMotionY = y;
+                mDownX = event.getX();
+                mDownY = event.getRawY();
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 int deltaY = y - mLastMotionY;
-                if (mPullState == PULL_DOWN_STATE) {
-                    // PullToRefreshView执行下拉
-                    Log.i(TAG, " pull down!parent view move!");
-                    headerPrepareToRefresh(deltaY);
-                    // setHeaderPadding(-mHeaderViewHeight);
-                } else if (mPullState == PULL_UP_STATE) {
-                    // PullToRefreshView执行上拉
-                    Log.i(TAG, "pull up!parent view move!");
-                    footerPrepareToRefresh(deltaY);
+
+                float moveX = event.getX();
+                float moveY = event.getRawY();
+                float diffX = Math.abs(moveX - mDownX);
+                float diffY = Math.abs(moveY - mDownY);
+                boolean isHorizon = Math.tan(diffY / diffX) < Math.tan(45.0);
+                if (isHorizon) {
+                    if (mPullState == PULL_DOWN_STATE) {
+                        // PullToRefreshView执行下拉
+                        Log.i(TAG, " 下拉!父视图移动!");
+                        headerPrepareToRefresh(deltaY);
+                        // setHeaderPadding(-mHeaderViewHeight);
+                    } else if (mPullState == PULL_UP_STATE) {
+                        // PullToRefreshView执行上拉
+                        Log.i(TAG, "拉起!父视图移动!");
+                        footerPrepareToRefresh(deltaY);
+                    }
+                    mLastMotionY = y;
                 }
-                mLastMotionY = y;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
