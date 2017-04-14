@@ -1,4 +1,4 @@
-package com.vr_mu.vrmu.views;
+package com.vr_mu.vrmu.views.customize;
 
 import android.content.Context;
 import android.util.AttributeSet;
